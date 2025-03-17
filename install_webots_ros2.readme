@@ -10,6 +10,11 @@ $ sudo apt install -f
 #--- starte ggf. webots im Terminal ---
 $ webots
 
+# Open File/Open Sample World/robots/universal_robots/ure.wbt
+
+
+
+
 ##### # Installation von webots_ros2  #########
 cd ~/ur3_ws/src/
 git clone --recurse-submodules https://github.com/cyberbotics/webots_ros2.git
