@@ -1,0 +1,93 @@
+######### Installation von Webots mit ROS2 #############
+cd ~/Downloads
+# Download webbots als deb-File
+wget https://github.com/cyberbotics/webots/releases/download/R2025a/webots_2025a_amd64.deb
+# Deb-File installieren
+sudo dpkg -i webots_2025a_amd64.deb 
+# Fehlende Dependencies
+sudo apt install -f  
+
+#--- starte ggf. webots im Terminal ---
+# webots
+
+##### # Installation von webots_ros2  #########
+cd ~/ur3_ws/src/
+git clone --recurse-submodules https://github.com/cyberbotics/webots_ros2.git
+
+cd ~/ur3_ws/
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+# Trotzdem ist es ggf. nötig fehlende Pakete installieren, bei mir
+sudo apt install ros-humble-vision-msgs
+
+colcon build --symlink-install
+source /opt/ros/${ROS_DISTRO}/setup.bash
+source install/setup.bash
+
+####### usage ##########
+# Try the Demos https://github.com/cyberbotics/webots_ros2/wiki/Getting-Started
+# ABB und UR5
+# ros2 launch webots_ros2_universal_robot multirobot_launch.py
+
+# Turtlebot 3
+# https://github.com/cyberbotics/webots_ros2/wiki/Example-TurtleBot3-Burger
+# ros2 launch webots_ros2_turtlebot robot_launch.py
+
+# UR5e Simple
+# https://github.com/cyberbotics/webots_ros2/wiki/Example-Universal-Robots
+# ros2 launch webots_ros2_universal_robot robot_nodes_launch.py
+# ros2 launch webots_ros2_universal_robot robot_world_launch.py
+
+# oder mit Moveit!
+#$1 ros2 launch webots_ros2_universal_robot robot_world_launch.py
+#$2 ros2 launch webots_ros2_universal_robot robot_moveit_nodes_launch.py
+
+#Nicht starten: $ ros2 launch webots_ros2_universal_robot robot_nodes_launch.py
+
+
+
+###  UR5e Action erzeugen ##########
+# ur5e bewegt sich an 3 Positionen
+ros2 action send_goal /ur5e/ur_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory 
+"{
+  trajectory: {
+    joint_names: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint],
+    points: [
+      { positions: [3.02, -1.63, -1.88, 1.01, 1.51, 1.13], time_from_start: { sec: 5, nanosec: 500 } },
+      { positions: [-1.01, 0.38, -0.63, -0.88, 0.25, -1.63], time_from_start: { sec: 6, nanosec: 500 } },
+      { positions: [-1.01, 0.38, -0.63, -0.88, 0.25, 6.2], time_from_start: { sec: 50, nanosec: 500 } }
+    ]
+  },
+  goal_tolerance: [
+    { name: shoulder_pan_joint, position: 0.01 },
+    { name: shoulder_lift_joint, position: 0.01 },
+    { name: elbow_joint, position: 0.01 },
+    { name: wrist_1_joint, position: 0.01 },
+    { name: wrist_2_joint, position: 0.01 },
+    { name: wrist_3_joint, position: 0.01 }
+  ]
+}"
+
+###  UR5e Action erzeugen ##########
+#### 3F-Finger-Gripper bewegen
+# yeah, funkt !!!!
+# macht Finger zu und wieder auf !!!!
+ros2 action send_goal /ur5e/ur_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{
+  trajectory: {
+    joint_names: [
+      finger_1_joint_1,
+      finger_2_joint_1,
+      finger_middle_joint_1
+    ],
+    points: [
+      { positions: [0.99, 0.99, 0.99], time_from_start: { sec: 5, nanosec: 500 } },
+      { positions: [0.01, 0.01, 0.01], time_from_start: { sec: 10, nanosec: 500 } }
+    ]
+  },
+  goal_tolerance: [
+    { name: palm_finger_1_joint, position: 0.01 },
+    { name: finger_1_joint_1, position: 0.01 },
+    { name: finger_2_joint_1, position: 0.01 },
+    { name: finger_middle_joint_1, position: 0.01 }
+  ]
+}"
