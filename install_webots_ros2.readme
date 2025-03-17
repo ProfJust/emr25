@@ -1,14 +1,14 @@
 ######### Installation von Webots mit ROS2 #############
-cd ~/Downloads
+$ cd ~/Downloads
 # Download webbots als deb-File
-wget https://github.com/cyberbotics/webots/releases/download/R2025a/webots_2025a_amd64.deb
+$ wget https://github.com/cyberbotics/webots/releases/download/R2025a/webots_2025a_amd64.deb
 # Deb-File installieren
-sudo dpkg -i webots_2025a_amd64.deb 
+$ sudo dpkg -i webots_2025a_amd64.deb 
 # Fehlende Dependencies
-sudo apt install -f  
+$ sudo apt install -f  
 
 #--- starte ggf. webots im Terminal ---
-# webots
+$ webots
 
 ##### # Installation von webots_ros2  #########
 cd ~/ur3_ws/src/
