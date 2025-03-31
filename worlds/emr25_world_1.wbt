@@ -1,0 +1,56 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/universal_robots/protos/UR3e.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotiq/protos/Robotiq2f85Gripper.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.1929301384898862 0.004540279526990253 0.9812019911945197 3.0954337070743625
+  position 1.69578121835116 -0.07674340473116155 0.729418274259917
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 2 2
+}
+UR3e {
+  hidden position_0_0 0.0005809948228314292
+  hidden rotation_1 0 0 1 0.0005809948231800844
+  hidden position_1_0 2.1345725143007144e-05
+  hidden rotation_2 0 1 0 1.5708173457251429
+  hidden position_2_0 -0.49999292395768563
+  hidden rotation_3 0 -1 0 0.4999929239576852
+  hidden position_3_0 -0.22008741538012386
+  hidden rotation_4 0 1 0 1.350708584619876
+  hidden position_4_0 -3.599741481462664e-05
+  hidden rotation_5 0 0 -1 3.599741827833515e-05
+  hidden position_5_0 -0.0002242546007924885
+  hidden translation_6 -0.0001372345357082745 -1.3737256590040642e-06 0.08449939050156156
+  hidden rotation_6 -0.17892715625690842 -0.9826127505792301 0.049570708618452725 0.00019696339316708938
+  hidden position_7_0 0.009999988595655318
+  hidden position_7_1 -0.011796842288738674
+  hidden position_7_2 0.010000011751831961
+  hidden position_7_3 -0.011516190437603324
+  hidden rotation_8 8.660209407786726e-10 0.004999973464591645 0.9999875000545525 3.1415929999956695
+  hidden position_9_0 -0.04069784227006623
+  hidden rotation_10 -1 0 0 0.040697842270062595
+  hidden rotation_12 -1.0216307107809848e-09 -0.005898386942068131 0.9999826043644369 3.141592999993974
+  hidden position_12_0 -0.01890391621779619
+  hidden rotation_13 1 0 0 0.010000011751842603
+  hidden position_14_0 -0.04334796266414141
+  hidden rotation_15 -1 0 0 0.04334796266413864
+  hidden rotation_17 -1 0 0 0.011516190437612824
+  hidden position_17_0 -0.02183455638339666
+  controller "emr25_ur3e_controller_1"
+  toolSlot [
+    Robotiq2f85Gripper {
+      rotation 1 0 0 -1.5708
+    }
+  ]
+}
