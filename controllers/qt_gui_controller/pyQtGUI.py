@@ -1,5 +1,10 @@
 # PyQtGUI.py
-# PyQtGUI.py
+# ----------------------------------------------------------------------
+# EMR25 
+# OJ 7.4.25
+#
+# ggf.  pip install PyQt5
+#-----------------------------------------------------------------------
 import sys
 import socket
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
