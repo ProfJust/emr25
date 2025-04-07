@@ -3,7 +3,10 @@
 # EMR25 
 # OJ 7.4.25
 #
-# Dieses Skript zuerst starten, dann webots 
+# Skript für den Aufgabu eines Qt-GUI zum steuern des UR3e-Roboters 
+# in Webots
+# 
+# Achtung: Dieses Skript zuerst starten, dann webots 
 # Ansonsten gibt es einen Socket_Error
 #-----------------------------------------------------------------------
 
