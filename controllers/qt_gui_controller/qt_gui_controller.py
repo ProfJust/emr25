@@ -1,3 +1,13 @@
+# qt_gui_controller.py
+# ----------------------------------------------------------------------
+# EMR25 
+# OJ 7.4.25
+#
+# Dieses Skript zuerst starten, dann webots 
+# Ansonsten gibt es einen Socket_Error
+#-----------------------------------------------------------------------
+
+
 from controller import Robot
 import socket
 import threading
@@ -21,13 +31,12 @@ def handle_socket():
     global message_queue
     # TCP Socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.settimeout(0.1)  # https://stackoverflow.com/questions/67177904/create-webots-interface-with-other-software-using-tcp-ip-protocol-in-pythonhttps://stackoverflow.com/questions/67177904/create-webots-interface-with-other-software-using-tcp-ip-protocol-in-python
+    sock.settimeout(30) 
     sock.bind(('localhost', 12345))
     sock.listen(1)
     
     while True:
         conn, addr = sock.accept()
-        # https://stackoverflow.com/questions/67177904/create-webots-interface-with-other-software-using-tcp-ip-protocol-in-pythonhttps://stackoverflow.com/questions/67177904/create-webots-interface-with-other-software-using-tcp-ip-protocol-in-python
         try:
             data = conn.recv(1024)
         except socket.timeout:
