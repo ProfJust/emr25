@@ -13,10 +13,26 @@ HOME_POSITION = [
     -0.67, -2.06, -0.62, -1.93, 0.99, 2.99
 ]
 
+# Gripper-Konfiguration (Anpassen an Ihre Webots-Welt!)
+GRIPPER_OPEN_POS = 0.04  # Maximal geöffnet (in Rad)
+GRIPPER_CLOSE_POS = 0.0  # Geschlossen
+GRIPPER_SPEED = 1.0      # Rad/s
 
 # Initialisiere Webots-Roboter
 robot = Robot()
 timestep = int(robot.getBasicTimeStep())
+
+
+# Debug: Zeige alle verfügbaren Devices
+print("🔍 Verfügbare Devices:")
+for i in range(robot.getNumberOfDevices()):
+    device = robot.getDeviceByIndex(i)
+    print("-", device.getName())
+    
+# Gripper initialisieren
+gripper = robot.getDevice("ROBOTIQ 2F-85 Gripper::left finger joint")
+gripper_sensor = robot.getDevice("ROBOTIQ 2F-85 Gripper left finger joint sensor")
+gripper_sensor.enable(timestep)
 
 # Gelenkkonfiguration
 joint_names = [
@@ -25,10 +41,10 @@ joint_names = [
     "elbow_joint",
     "wrist_1_joint",
     "wrist_2_joint",
-    "wrist_3_joint"
+    "wrist_3_joint",
 ]
 
-# Initialisiere Motoren und Sensoren
+# Initialisiere Roboter-Motoren und Sensoren
 motors = {}
 sensors = {}
 for name in joint_names:
@@ -41,19 +57,19 @@ for name in joint_names:
         sensor.enable(timestep)
         sensors[name] = sensor
 
-# Initialisierung des Grippers
-gripper = robot.getDevice("ROBOTIQ 2F-85 Gripper::left finger joint")
-gripper_sensor = robot.getDevice("ROBOTIQ 2F-85 Gripper left finger joint sensor")
-gripper_sensor.enable(timestep)
-
 # Globale Variablen
 current_joint_angles = HOME_POSITION.copy()
 target_joint_angles = HOME_POSITION.copy()
 lock = threading.Lock()
 
-        
 def inverse_kinematics(cartesian_pose):
+    # Dummy-Implementierung
     return cartesian_pose if len(cartesian_pose) == 6 else None
+
+def set_gripper(position):
+    if gripper_motor:
+        gripper_motor.setPosition(position)
+        time.sleep(0.5)  # Für die Simulation
 
 def handle_client(conn, addr):
     print(f"🔗 Neue Verbindung von {addr}")
@@ -96,14 +112,25 @@ def handle_client(conn, addr):
                 elif command == "reset_to_home":
                     target_joint_angles[:] = HOME_POSITION.copy()
                     response = {"info": "Zurück zur Home-Position"}
-                
-                elif command == "OpenGripper":
-                     gripper.setPosition(0.02)  # Fully opened
-                     
-                elif command == "CloseGripper":
-                     gripper.setPosition(0.7)  # Fully closed
-                    
+
+                # Neue Gripper-Befehle
+                elif command == "openGripper":
+                    gripper.setPosition(0.01)  # Fully opened
+                    sensor_value = gripper_sensor.getValue()
+                    print("Griffweite:",sensor_value)
+                    response = {"info": "Greifer geöffnet"}
+
+                elif command == "closeGripper":
+                    gripper.setPosition(0.8)  # Fully close 
+                    sensor_value = gripper_sensor.getValue()
+                    print("Griffweite:",sensor_value)
+                    response = {"info": "Greifer geschlossen"}
+
                 elif command == "disconnect":
+                    response = {"info": "Verbindung getrennt"}
+                    conn.sendall(json.dumps(response).encode("utf-8"))
+                    conn.shutdown(socket.SHUT_WR)
+                    time.sleep(0.05)  # kurze Pause, damit der Client noch lesen kann
                     break
 
                 else:

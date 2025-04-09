@@ -1,10 +1,8 @@
 import sys
 import json
 import socket
-
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QTimer
-# ModuleNotFoundError: No module named 'PyQt5' =>   pip install PyQt5
 
 class RobotControlGUI(QWidget):
     def __init__(self):
@@ -54,6 +52,17 @@ class RobotControlGUI(QWidget):
         self.status_label = QLabel("Verbindung wird hergestellt...")
         layout.addWidget(self.status_label)
 
+        
+        # Grippersteuerung
+        gripper_buttons = QHBoxLayout()
+        self.btn_open = QPushButton("Greifer öffnen")
+        self.btn_close = QPushButton("Greifer schließen")
+        self.btn_open.clicked.connect(self.open_gripper)
+        self.btn_close.clicked.connect(self.close_gripper)
+        gripper_buttons.addWidget(self.btn_open)
+        gripper_buttons.addWidget(self.btn_close)
+        layout.addLayout(gripper_buttons)
+
         self.setLayout(layout)
         self.setMinimumSize(500, 700)
 
@@ -74,7 +83,25 @@ class RobotControlGUI(QWidget):
         except socket.error as e:
             self.status_label.setText(f"Verbindungsfehler: {str(e)}")
             self.status_label.setStyleSheet("color: red")
+    
+    def open_gripper(self):
+        try:
+            self.sock.sendall(json.dumps({"command": "openGripper"}).encode('utf-8'))
+            print("🟢 Greifer öffnen gesendet.")
+            response = self.sock.recv(4096)
+            print("Antwort:", response.decode())
+        except Exception as e:
+            print("⚠️ Fehler beim Öffnen des Greifers:", e)
 
+    def close_gripper(self):
+        try:
+            self.sock.sendall(json.dumps({"command": "closeGripper"}).encode('utf-8'))
+            print("🔴 Greifer schließen gesendet.")
+            response = self.sock.recv(4096)
+            print("Antwort:", response.decode())
+        except Exception as e:
+            print("⚠️ Fehler beim Schließen des Greifers:", e)
+    
     def request_current_angles(self):
         try:
             cmd = json.dumps({"command": "getActualQ"})
@@ -129,3 +156,5 @@ if __name__ == '__main__':
     ex = RobotControlGUI()
     ex.show()
     sys.exit(app.exec_())
+
+    

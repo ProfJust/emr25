@@ -1,21 +1,22 @@
+
 class RobotiqGripper:
     def __init__(self, rtde_control):
         self.rtde = rtde_control
 
     def activate(self):
-        return self.rtde.send_gripper_command("activate")
-
-    def set_force(self, force_percent):
-        return self.rtde.send_gripper_command("set_force", force_percent)
-
-    def set_speed(self, speed_percent):
-        return self.rtde.send_gripper_command("set_speed", speed_percent)
+        return self.rtde._send_command("activate")
 
     def open(self):
-        return self.rtde.send_gripper_command("OpenGripper")
+        return self.rtde._send_command("openGripper")
 
     def close(self):
-        return self.rtde.send_gripper_command("CloseGripper")
+        return self.rtde._send_command("closeGripper")
 
-    def move(self, opening_mm):
-        return self.rtde.send_gripper_command("move", opening_mm)
+    def move(self, value):  # mm
+        return self.rtde._send_command("move", {"value": value})
+
+    def set_force(self, value):
+        return self.rtde._send_command("set_force", {"value": value})
+
+    def set_speed(self, value):
+        return self.rtde._send_command("set_speed", {"value": value})
