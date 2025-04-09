@@ -42,8 +42,8 @@ for name in joint_names:
         sensors[name] = sensor
 
 # Initialisierung des Grippers
-gripper = robot.getDevice("ROBOTIQ_2F85::left finger joint")
-gripper_sensor = robot.getDevice("ROBOTIQ_2F85 left finger joint sensor")
+gripper = robot.getDevice("ROBOTIQ 2F-85 Gripper::left finger joint")
+gripper_sensor = robot.getDevice("ROBOTIQ 2F-85 Gripper left finger joint sensor")
 gripper_sensor.enable(timestep)
 
 # Globale Variablen

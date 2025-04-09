@@ -4,6 +4,7 @@
 # OJ 7.4.25
 #
 # ggf.  pip install PyQt5
+# C:/Python312/python.exe c:\mySciebo\_EMR25\github\emr25\controllers\qt_gui_controller\pyQtGUI.py    
 #-----------------------------------------------------------------------
 import sys
 import socket

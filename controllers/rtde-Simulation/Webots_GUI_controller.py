@@ -1,8 +1,10 @@
 import sys
 import json
 import socket
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QTimer
+# ModuleNotFoundError: No module named 'PyQt5' =>   pip install PyQt5
 
 class RobotControlGUI(QWidget):
     def __init__(self):
