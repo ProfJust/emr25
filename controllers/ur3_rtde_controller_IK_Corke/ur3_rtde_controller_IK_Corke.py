@@ -10,10 +10,9 @@ import time
 import spatialmath as sm  
 from roboticstoolbox import models 
 
-
-
 # UR3-Modell für IK laden
-ur3_model = models.UR3()
+ur3_model = models.URDF.UR3()
+print(ur3_model)
 # Liste aller möglichen End-Effektor-Links ausgeben:
 print("EE-Links verfügbar:", ur3_model.ee_links)
 # hier denjenigen wählen, an dem Dein Tool sitzt, z. B. der zweite Eintrag:
