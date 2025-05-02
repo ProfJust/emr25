@@ -82,8 +82,8 @@ def inverse_kinematics(cartesian_pose):
     if len(cartesian_pose) != 6:
         print("Ungültige Pose für IK:", cartesian_pose)
         return None
-    x, y, z, roll, pitch, yaw = cartesian_pose
-    T = sm.SE3(x, y, z) * sm.SE3.RPY(roll, pitch, yaw, order='xyz')
+    x, y, z, rx, ry, rz = cartesian_pose   # roll rx, pitch ry, yaw rz
+    T = sm.SE3(x, y, z) * sm.SE3.RPY(rx, ry, rz, order='xyz')
     # Ohne 'silent'-Argument, um inkompatible Signature zu vermeiden
     sol = ur3_model.ikine_LM(T)
     if not sol.success:
