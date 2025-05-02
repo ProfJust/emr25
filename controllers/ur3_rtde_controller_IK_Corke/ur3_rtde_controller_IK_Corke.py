@@ -83,9 +83,30 @@ def inverse_kinematics(cartesian_pose):
         print("Ungültige Pose für IK:", cartesian_pose)
         return None
     x, y, z, rx, ry, rz = cartesian_pose   # roll rx, pitch ry, yaw rz
-    T = sm.SE3(x, y, z) * sm.SE3.RPY(rx, ry, rz, order='xyz')
-    # Ohne 'silent'-Argument, um inkompatible Signature zu vermeiden
-    sol = ur3_model.ikine_LM(T)
+
+    # Matrix für die Zielpose (Endeffektor-Pose) definieren
+    # sm = spatialmath Bibliothek   
+    # Position (x,y,z) und Orientierung (rx,ry,rz)
+    TCP_ziel = sm.SE3(x, y, z) * sm.SE3.RPY(rx, ry, rz, order='xyz')
+
+    # Greifer zeigt immer nach unten?
+    # TCP_ziel = sm.SE3.Trans(x, y, z) * sm.SE3.OA([0, 1, 0], [0, 0, -1])
+    # Trans() definiert die Position (x,y,z)
+    # OA()  legt die Orientierung über Orientierungs- und Annäherungsvektor fest
+    # Orientierungsvektor (Orientation Vector):
+    # Dieser Vektor beschreibt eine zweite Richtung, meist die y-Achse des Endeffektor-Koordinatensystems. Er legt fest, wie der Endeffektor um den Annäherungsvektor herum gedreht ist.
+    # Annäherungsvektor (Approach Vector)
+    # Dieser Vektor gibt die Richtung an, in die sich der Endeffektor annähert oder „zeigt“. In der Praxis ist das oft die z-Achse des Endeffektor-Koordinatensystems.•	Dieser Vektor gibt die Richtung an, in die sich der Endeffektor annähert oder „zeigt“. In der Praxis ist das oft die z-Achse des Endeffektor-Koordinatensystems.
+     
+  
+    # Die Methode ikine_LM() berechnet die inverse Kinematik (IK) mithilfe des Levenberg-Marquadt-Algorithmus
+    #   Parameter	Beschreibung
+    #   TCP_ziel	SE3-Objekt mit Zielposition und -orientierung des Endeffektors
+    #   q0	        (Optional) Startschätzung für Gelenkwinkel (Standard: Aktuelle Gelenkwinkel)
+    #   ilimit	    Maximale Iterationen (Standard: 30)
+    #   tol	        Toleranz für Konvergenz (Standard: 1e-6)
+    #   mask	    (Optional) Maskierung bestimmter Freiheitsgrade (z.B. [1,1,1,1] für nur Position)
+    sol = ur3_model.ikine_LM(TCP_ziel)  # Make an IK solver
     if not sol.success:
         print("IK-Konvergenz fehlgeschlagen für Pose:", cartesian_pose)
         return None
