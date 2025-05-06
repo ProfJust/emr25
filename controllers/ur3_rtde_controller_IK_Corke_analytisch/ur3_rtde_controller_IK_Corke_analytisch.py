@@ -11,13 +11,13 @@ import spatialmath as sm
 from roboticstoolbox import models 
 
 # UR3-Modell für IK laden
-ur3_model = models.URDF.UR3()
+ur3_model = models.URDF.UR3() # DH Denavit Hartenberg
 print(ur3_model)
 # Liste aller möglichen End-Effektor-Links ausgeben:
 print("EE-Links verfügbar:", ur3_model.ee_links)
 # hier denjenigen wählen, an dem Dein Tool sitzt, z. B. der zweite Eintrag:
-ur3_model.ee_link = ur3_model.ee_links[1]
-
+ur3_model.ee_link = ur3_model.ee_links[2] # tool_0
+print(ur3_model.ee_link)
 
 # RTDE-Schnittstellenparameter
 SERVER_HOST = "0.0.0.0"
@@ -87,7 +87,10 @@ def inverse_kinematics(cartesian_pose):
     # Matrix für die Zielpose (Endeffektor-Pose) definieren
     # sm = spatialmath Bibliothek   
     # Position (x,y,z) und Orientierung (rx,ry,rz)
-    TCP_ziel = sm.SE3(x, y, z) * sm.SE3.RPY(rx, ry, rz, order='xyz')
+    Tep = sm.SE3(x, y, z) * sm.SE3.RPY(rx, ry, rz, order='xyz')
+    # print(" TCP Ziel: ", TCP_ziel)
+    # Zielpose definieren (Beispiel: 10 cm vorwärts in x-Richtung)
+    #TCP_ziel = sm.SE3.Trans(0.1, 0, 0) * sm.SE3.RPY([0, 0, 0])
 
     # Greifer zeigt immer nach unten?
     # TCP_ziel = sm.SE3.Trans(x, y, z) * sm.SE3.OA([0, 1, 0], [0, 0, -1])
@@ -100,20 +103,34 @@ def inverse_kinematics(cartesian_pose):
      
   
     # Die Methode ikine_LM() berechnet die inverse Kinematik (IK) mithilfe des Levenberg-Marquadt-Algorithmus
+    # https://petercorke.github.io/robotics-toolbox-python/IK/stubs/roboticstoolbox.robot.Robot.Robot.ikine_LM.html
     #   Parameter	Beschreibung
     #   TCP_ziel	SE3-Objekt mit Zielposition und -orientierung des Endeffektors
     #   q0	        (Optional) Startschätzung für Gelenkwinkel (Standard: Aktuelle Gelenkwinkel)
     #   ilimit	    Maximale Iterationen (Standard: 30)
-    #   tol	        Toleranz für Konvergenz (Standard: 1e-6)#
+    #   tol	        Toleranz für Konvergenz (Standard: 1e-6)
     #   mask	    (Optional) Maskierung bestimmter Freiheitsgrade (z.B. [1,1,1,1] für nur Position)
 
     end =  ur3_model.ee_links[2] # tool_0
     print(end)
+    #print(ur3_model)
+    start = ur3_model.links[1] # base_links
+    print(start)
+    #q0 = ur3_model.q  ############## The initial joint coordinate vector is Zero  => ERROR ???
+    q0 = current_joint_angles.copy()
+    print("Aktuelle Gelenkwinkel", q0)
+
     sol = ur3_model.ikine_LM(
-        TCP_ziel,
-        end 
+        Tep,
+        end,
+        start, 
+        q0
     )  # Make an IK solver
-    #sol = ur3_model.ikine_LM(TCP_ziel)  # Make an IK solver
+    
+    
+    # Analytische Lösung => ERROR 'UR3' object has no attribute 'ikine_a'
+    # sol = ur3_model.ikine_a(TCP_ziel, config="lun")  # Make an IK solver
+
     if not sol.success:
         print("IK-Konvergenz fehlgeschlagen für Pose:", cartesian_pose)
         return None
@@ -155,12 +172,13 @@ def handle_client(conn, addr):
                     pose = payload.get("pose", [])
                     speed = payload.get("speed", 0.5)
                     if len(pose) == 6:
-                        q = inverse_kinematics(pose)
+                        print(" Target Pose IK ", pose)
+                        q = inverse_kinematics(pose)  # ==>>> IK 
                         if q:
                             target_joint_angles[:] = q
                             for name in joint_names:
                                 motors[name].setVelocity(speed)
-                            response = {"info": "moveL akzeptiert", "target_q": q, "speed": speed}
+                            response = {"info": "Target Q akzeptiert", "target_q": q, "speed": speed}
                         else:
                             response = {"error": "IK fehlgeschlagen"}
                     else:
