@@ -35,11 +35,31 @@ class Ui(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update)
         self.timer.start(20)
-        rel_path = os.path.join("pics", "gras.jpg")
-        self.abs_path = os.path.abspath(rel_path)
-        rel_path_ball = os.path.join("pics", "ball.png")
-        self.abs_path_ball = os.path.abspath(rel_path_ball)
-        print(self.abs_path)
+        
+        """#https://stackoverflow.com/questions/5137497/find-the-current-directory-and-files-directory
+        print("Path at terminal when executing this file")
+        print(os.getcwd() + "\n")
+        print("This file path, relative to os.getcwd()")
+        print(__file__ + "\n")
+        print("This file full path (following symlinks)")
+        full_path = os.path.realpath(__file__)
+        print(full_path + "\n")
+        print("This file directory and name")
+        path, filename = os.path.split(full_path)
+        print(path + ' --> ' + filename + "\n")
+        print("This file directory only")
+        print(os.path.dirname(full_path)) """
+                
+        # This file directory and name of this file
+        full_path = os.path.realpath(__file__)
+        # This file directory only
+        dir_path = os.path.dirname(full_path)
+        print("directory only", dir_path)
+         # join two paths
+        self.path_gras = dir_path  + "\\pics\\gras.jpg"
+        print("path Gras", self.path_gras)
+        self.path_ball = dir_path  + "\\pics\\ball_transparent.png"
+        print("path Ball", self.path_ball)
         self.initUI()
 
     def initUI(self):
@@ -57,13 +77,13 @@ class Ui(QWidget):
     def drawFunc(self, event, p):
         # Hintergrund mit Pixmap
         
-        #pix = QPixmap("pics/gras.jpg")
-        pix = QPixmap(self.abs_path)
+        # pix = QPixmap("pics/gras.jpg")
+        pix = QPixmap(self.path_gras)
         p.drawPixmap(self.rect(), pix)
 
         # bewegtes Rechteck zeichnen mit Pixmap
-        # pix2 = QPixmap("ball_transparent.png")  # PNG mit Transparenz
-        pix2 = QPixmap(self.abs_path_ball)
+        pix2 = QPixmap(self.path_ball) # PNG mit Transparenz
+        # pix2 = QPixmap(self.abs_path_ball)
         target = QRect(self.pos_x, self.pos_y, 50, 50)  # import QRect
         p.drawPixmap(target, pix2)
 
