@@ -5,14 +5,7 @@
 # -----------------------------------------
 # last edited by OJ am 26.11.2024 
 #
-# Usage: 
-# in der Windows-Power-Shell in das VErzeichnis springen und
-# > cd 'C:\Users\RoboAdmin\mySciebo\_SRO\_GitHub_LaborPC\SRO\Py_Qt6\'
-# ausführen
-# > python .\pyQt6_11_PixDynamic_Ball_vor_Gras.py
-#
-# Hier aus dem Debugger funktioniert es nicht (Fenster ohen Gras und ohne Ball)
-# Die Bilddateien müssen im selben Ordner liegen !!
+
 
 import sys
 from PyQt6.QtCore import (Qt, QTimer, QRect)
@@ -35,7 +28,21 @@ class Ui(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update)
         self.timer.start(20)
+
+        # In Python benötigen wir immer den gesamten Dateipfad um eine Datei zu öffen, 
+        # falls die Datei nicht im selben Verzeichnis liegt
+        # ==> Lösung 1: 
+        # in der Windows-Power-Shell in das Verzeichnis springen und
+        # > cd 'C:\Users\RoboAdmin\mySciebo\_SRO\_GitHub_LaborPC\SRO\Py_Qt6\'
+        # ausführen
+        # > python .\pyQt6_11_PixDynamic_Ball_vor_Gras.py
+        #
+        # Hier aus dem Debugger funktioniert es nicht (Fenster ohen Gras und ohne Ball)
+        # Die Bilddateien müssen im selben Ordner liegen !!
         
+        # Lösung 2:
+        # mit os kann man den Dateipfad bekommen um den kompletten Pfad zusammen zu bauen
+        # Bsp: 
         """#https://stackoverflow.com/questions/5137497/find-the-current-directory-and-files-directory
         print("Path at terminal when executing this file")
         print(os.getcwd() + "\n")
