@@ -19,6 +19,7 @@ from PyQt6.QtCore import (Qt, QTimer, QRect)
 from PyQt6.QtWidgets import (QWidget, QPushButton, QApplication, QLabel)
 from PyQt6.QtGui import QPainter, QColor, QFont
 from PyQt6.QtGui import QPixmap
+import os
 
 
 class Ui(QWidget):
@@ -34,6 +35,11 @@ class Ui(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update)
         self.timer.start(20)
+        rel_path = os.path.join("pics", "gras.jpg")
+        self.abs_path = os.path.abspath(rel_path)
+        rel_path_ball = os.path.join("pics", "ball.png")
+        self.abs_path_ball = os.path.abspath(rel_path_ball)
+        print(self.abs_path)
         self.initUI()
 
     def initUI(self):
@@ -50,11 +56,14 @@ class Ui(QWidget):
 
     def drawFunc(self, event, p):
         # Hintergrund mit Pixmap
-        pix = QPixmap("gras.jpg")
+        
+        #pix = QPixmap("pics/gras.jpg")
+        pix = QPixmap(self.abs_path)
         p.drawPixmap(self.rect(), pix)
 
         # bewegtes Rechteck zeichnen mit Pixmap
-        pix2 = QPixmap("ball_transparent.png")  # PNG mit Transparenz
+        # pix2 = QPixmap("ball_transparent.png")  # PNG mit Transparenz
+        pix2 = QPixmap(self.abs_path_ball)
         target = QRect(self.pos_x, self.pos_y, 50, 50)  # import QRect
         p.drawPixmap(target, pix2)
 
