@@ -8,7 +8,7 @@
 import cv2 as cv
 
 # lese Bild von Festplatte
-img = cv.imread(r'C:\mySciebo\_SRO\UR_Programme PC Python RTDE\SRO_OpenCV\bild_von_webcam.png')
+img = cv.imread(r'C:\Users\RoboAdmin\mySciebo\_EMR25\emr25\openCV\bild_von_webcam.png')
 
 # 
 y = 380

@@ -3,7 +3,7 @@
 #---------------------------------------
 # Erstellt ein Fenster einem bewegten Streichholz
 # -----------------------------------------
-# last edited by OJ am 26.11.2024 
+# last edited by OJ am 12.05.2025 
 #
 # Usage: 
 # in der Windows-Power-Shell in das VErzeichnis springen und
@@ -11,9 +11,10 @@
 # ausführen
 # > python .\pyQt6_10_Pixmap.py
 #
+######################################################################
 # Hier aus dem Debugger funktioniert es nicht (Fenster ohne alles)
-# Die Bilddateie muss im selben Ordner liegen !!
-
+# Die Bilddatei muss im selben Ordner liegen !!
+#####################################################################
 import sys
 from PyQt6.QtCore import (Qt, QTimer)
 from PyQt6.QtWidgets import (QWidget, QPushButton, QApplication, QLabel)

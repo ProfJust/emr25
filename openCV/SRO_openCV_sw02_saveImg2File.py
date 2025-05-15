@@ -7,11 +7,11 @@ import cv2
 # importing os module  
 import os
 
-# Image path
-image_path = r'C:\mySciebo\_SRO\UR_Programme PC Python RTDE\SRO_OpenCV\bild_von_webcam.jpg'
+# Image path  
+image_path = r'C:\Users\RoboAdmin\mySciebo\_EMR25\emr25\openCV\bild_von_webcam.png'
 
 # Image directory
-directory = r'C:\mySciebo\_SRO\UR_Programme PC Python RTDE\SRO_OpenCV'
+directory = r'C:\Users\RoboAdmin\mySciebo\_EMR25\emr25\openCV'
 
 # Using cv2.imread() method
 # to read the image
@@ -22,8 +22,7 @@ img = cv2.imread(image_path)
 os.chdir(directory)
 
 # List files and directories  
-# in 'C:/Users/Rajnish/Desktop/GeeksforGeeks'  
-print("Before saving image:")  
+print("list directory before saving image:")  
 print(os.listdir(directory))  
 
 # Filename

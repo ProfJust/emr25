@@ -2,12 +2,25 @@ import sys
 import time
 from PyQt5.QtCore import QTimer, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QProgressBar
-import pygame
-import rtde_control
-import rtde_receive
-import robotiq_gripper
+import pygame # ggf. pip install pygame
+#import rtde_control
+#import rtde_receive
+#import robotiq_gripper
+from rtde_control import RTDEControlInterface
+from rtde_receive import RTDEReceiveInterface
+from robotiq_gripper_control import RobotiqGripper
 
-ROBOT_IP = "192.168.0.51"
+### MAKE A BEEP ###
+"""import winsound
+frequency = 2500  # Set Frequency To 2500 Hertz
+duration = 1000  # Set Duration To 1000 ms == 1 second
+winsound.Beep(frequency, duration)"""
+print(" THIS SOFTWARE IS UNDER HEAVY CONSTRUCTION ")
+pygame.mixer.init()
+sound = pygame.mixer.Sound('owin31.wav')
+sound.play()
+
+UR3_IP = "127.0.0.1"
 #Notaus Label
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()
@@ -21,13 +34,13 @@ class RobotControlThread(QThread):
 
     def __init__(self, rtde_r, rtde_c, joystick):
         super().__init__()
-        self.rtde_r = rtde_r
-        self.rtde_c = rtde_c
+        self.rtde_r = RTDEReceiveInterface(UR3_IP)
+        self.rtde_c = RTDEControlInterface(UR3_IP)
         self.joystick = joystick
         self.running = True
         self.paused = False
-        self.gripper = robotiq_gripper.RobotiqGripper()
-        self.gripper.connect(ROBOT_IP, 63352)
+        self.gripper = RobotiqGripper(rtde_c)
+        self.gripper.connect(UR3_IP)
         self.gripper.activate()
         self.speed_magnitude = 0.05 #speed X,Y,Z
         self.speed_magnitude_r = 0.20 #speed roll,pitch,yaw
@@ -177,8 +190,10 @@ class XBoxController(QWidget):
 
     def initRobot(self):
         try:
-            self.rtde_c = rtde_control.RTDEControlInterface(ROBOT_IP)
-            self.rtde_r = rtde_receive.RTDEReceiveInterface(ROBOT_IP)
+            self.rtde_c = RTDEControlInterface(UR3_IP)
+            # self.rtde_c = rtde_control.RTDEControlInterface(ROBOT_IP)
+            self.rtde_r = RTDEReceiveInterface(ROBOT_IP)
+            # self.rtde_r = rtde_receive.RTDEReceiveInterface(ROBOT_IP)
             self.robot_thread = RobotControlThread(self.rtde_r, self.rtde_c, self.joystick)
             self.robot_thread.updateValues.connect(self.updateBars)
             self.robot_thread.updateGripperState.connect(self.updateGripperInfo)
@@ -223,7 +238,8 @@ class XBoxController(QWidget):
     def updateJoystickData(self):
         try:
             pygame.event.pump()
-            current_pose = self.rtde_r.getActualTCPPose()
+            current_pose = self.rtde_r.get_actual_tcp()
+            # current_pose = self.rtde_r.getActualTCPPose()
             pose_text = f"Pose: x={current_pose[0]:.3f}, y={current_pose[1]:.3f}, z={current_pose[2]:.3f}, " \
                         f"rx={current_pose[3]:.3f}, ry={current_pose[4]:.3f}, rz={current_pose[5]:.3f}"
             self.lbl_pose_complete.setText(pose_text)

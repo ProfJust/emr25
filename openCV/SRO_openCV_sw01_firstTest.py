@@ -21,7 +21,9 @@ cam = cv.VideoCapture(0)
 ret, image = cam.read()
 
 # zeige das Bild an
+print("Lese Bild von Kamera und zeige es an ")
 cv.imshow("WebCam", image)
+print("Kamera initialisiert, in Fenster klicken und Taste drücken")
 cv.waitKey(0)
 
 # konvertiere das Bild in Graustufen

@@ -4,7 +4,7 @@
 
 import cv2
 import os
-image_path = r'C:\mySciebo\_SRO\UR_Programme PC Python RTDE\SRO_OpenCV\bild_von_webcam.png'
+image_path = r'C:\Users\RoboAdmin\mySciebo\_EMR25\emr25\openCV\bild_von_webcam.png'
 filename = 'pixel_line.jpg'
 
 # Einlesen

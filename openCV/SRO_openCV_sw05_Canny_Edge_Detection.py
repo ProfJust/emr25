@@ -3,7 +3,7 @@ import cv2
 import imutils
 
 # Image path
-image_path = r'C:\mySciebo\_SRO\_GitHub\SRO\SRO_OpenCV\map.pgm'
+image_path = r'C:\Users\RoboAdmin\mySciebo\_EMR25\emr25\openCV\map.pgm'
 # lese Bild von Festplatte
 #map = cv2.imread("map.pgm")
 map = cv2.imread(image_path)
