@@ -28,6 +28,8 @@ pygame.init()
 pygame.joystick.init()
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
+nothalt = True
+print(" Not-Halt ist eingeschaltet, Start mit |>  - Play-Button")
 # Infos holen
 print("Anzahl der Achsen:", joystick.get_numaxes() )
 print("Anzahl der Buttons:", joystick.get_numbuttons() )
@@ -61,32 +63,43 @@ while True:
         a4 = joystick.get_axis(4)
         if abs(a4) < 0.1: a4 = 0.0
 
-        print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
+    
 
-        # --- Alle Buttons holen und ausgeben ---
-        for i in range(joystick.get_numbuttons()):
-            print(joystick.get_button(i), end=" ")
-        print("-------")
         
-        # --- Gripper Aktionen ---
-        if joystick.get_button(5):
-            gripper.close()        
-        if joystick.get_button(7):
-            gripper.open()
 
-        # get actual pose, joint angles in RAD
-        actual_q = rtde_r.getActualQ() 
-        # new pose the robot should go to
-        new_q = actual_q
-        new_q[0] = new_q[0] + x * 0.5   # Joy Axis 0     shoulder_pan_joint
-        new_q[1] = new_q[1] + y * 0.5   # Joy Axis 1     shoulder_lift_joint
-        new_q[2] = new_q[2] + a4 * 0.5  # Joy Axis 4    elbow_joint
-        new_q[3] = new_q[3] + a2 * 0.5  # Joy Axis 1   wrist_1_joint
-        new_q[4] = new_q[4] + joystick.get_button(0) * 0.5  # wrist_2_joint
-        new_q[4] = new_q[4] - joystick.get_button(2) * 0.5
-        new_q[5] = new_q[5] + joystick.get_button(1) * 0.5  # wrist_3_joint
-        new_q[5] = new_q[5] - joystick.get_button(3) * 0.5
-        resp = rtde_c.moveJ(new_q)
+        if joystick.get_button(8):
+            nothalt = True
+            print(" Nothalt ")
+        if joystick.get_button(9):
+            nothalt = False
+            print(" Nothalt aus")
+
+        if not nothalt:
+            print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
+            # --- Alle Buttons holen und ausgeben ---
+            for i in range(joystick.get_numbuttons()):
+                print(joystick.get_button(i), end=" ")
+            print("-------")
+
+            # --- Gripper Aktionen ---
+            if joystick.get_button(5):
+                gripper.close()        
+            if joystick.get_button(7):
+                gripper.open()
+    
+            # get actual pose, joint angles in RAD
+            actual_q = rtde_r.getActualQ() 
+            # new pose the robot should go to
+            new_q = actual_q
+            new_q[0] = new_q[0] + x * 0.5   # Joy Axis 0     shoulder_pan_joint
+            new_q[1] = new_q[1] + y * 0.5   # Joy Axis 1     shoulder_lift_joint
+            new_q[2] = new_q[2] + a4 * 0.5  # Joy Axis 4    elbow_joint
+            new_q[3] = new_q[3] + a2 * 0.5  # Joy Axis 1   wrist_1_joint
+            new_q[4] = new_q[4] + joystick.get_button(0) * 0.5  # wrist_2_joint
+            new_q[4] = new_q[4] - joystick.get_button(2) * 0.5
+            new_q[5] = new_q[5] + joystick.get_button(1) * 0.5  # wrist_3_joint
+            new_q[5] = new_q[5] - joystick.get_button(3) * 0.5
+            resp = rtde_c.moveJ(new_q)
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt:")
