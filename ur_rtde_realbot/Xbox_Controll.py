@@ -1,13 +1,14 @@
+# Projekt mit XBOX-Controller
 import sys
 import time
 from PyQt5.QtCore import QTimer, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget, QProgressBar
-import pygame # ggf. pip install pygame
-#import rtde_control
-#import rtde_receive
-#import robotiq_gripper
+import pygame
+import rtde_control
+import rtde_receive
+import robotiq_gripper
 
-ROBOT_IP = "192.168"
+ROBOT_IP = "192.168.0.51"
 #Notaus Label
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()
