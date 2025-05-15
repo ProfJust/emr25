@@ -1,6 +1,5 @@
 import pygame  # ggf. pip install pygame bzw. py -m pip install pygame
 # https://www.pygame.org/docs/ref/joystick.html
-
 import sys
 
 pygame.init()
@@ -24,19 +23,29 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-        # Alle Achsen lesen und ausgeben        
-        x = joystick.get_axis(0)
-        y = joystick.get_axis(1)
-        a2 = joystick.get_axis(2)
-        # a3 = joystick.get_axis(3) entspricht a2
-        a4 = joystick.get_axis(4)
-        print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
+        # ---- Alle Achsen lesen ----       
+        x = joystick.get_axis(0) # Linker Stick X
+        # Deadzone für Analogsticks (vermeidet Rauschen):
+        if abs(x) < 0.1: x = 0.0
 
-        # Alle Buttons holen und ausgeben
-        for i in range(joystick.get_numbuttons()):
-            print(joystick.get_button(i), end=" ")
-        print("-------")
+        y = joystick.get_axis(1) # Linker Stick Y
+        # Deadzone für Analogsticks (vermeidet Rauschen):
+        if abs(y) < 0.1: y = 0.0
+
+        a2 = joystick.get_axis(2)  # Rechter Stick
+        # a3 = joystick.get_axis(3) entspricht a2
+        a4 = joystick.get_axis(4) # Rechter Stick
+
+        # ---- Alle Achsen ausgeben ----  
+        print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ") # ohne Zeilensprung
+
+        # --- Buttons holen und ausgeben, nur wenn auch betätigt => Event (ist effizienter) ----
+        if event.type == pygame.JOYBUTTONDOWN:            
+            for i in range(joystick.get_numbuttons()):
+                print(joystick.get_button(i), end=" ")
+        
+        print(">")  # Zeilensprung
     
-    except KeyboardInterrupt:
+    except KeyboardInterrupt: # STRG+C  zum Abbruch
         print("KeyboardInterrupt:")
         sys.exit()
