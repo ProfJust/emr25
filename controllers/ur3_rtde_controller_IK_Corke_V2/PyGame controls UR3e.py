@@ -61,11 +61,7 @@ while True:
 
         # a3 = joystick.get_axis(3) entspricht a2
         a4 = joystick.get_axis(4)
-        if abs(a4) < 0.1: a4 = 0.0
-
-    
-
-        
+        if abs(a4) < 0.1: a4 = 0.0         
 
         if joystick.get_button(8):
             nothalt = True
