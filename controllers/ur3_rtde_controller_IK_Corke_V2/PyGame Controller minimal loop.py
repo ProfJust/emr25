@@ -1,5 +1,6 @@
 import pygame  # ggf. pip install pygame bzw. py -m pip install pygame
 # https://www.pygame.org/docs/ref/joystick.html
+
 import sys
 
 pygame.init()
@@ -17,20 +18,25 @@ input("Weiter? -> Taste")
 
 # Schleife zum fortwährenden Auslesen des Gamepads
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    try:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-    # Alle Achsen lesen und ausgeben        
-    x = joystick.get_axis(0)
-    y = joystick.get_axis(1)
-    a2 = joystick.get_axis(2)
-    # a3 = joystick.get_axis(3) entspricht a2
-    a4 = joystick.get_axis(4)
-    print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
+        # Alle Achsen lesen und ausgeben        
+        x = joystick.get_axis(0)
+        y = joystick.get_axis(1)
+        a2 = joystick.get_axis(2)
+        # a3 = joystick.get_axis(3) entspricht a2
+        a4 = joystick.get_axis(4)
+        print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
 
-    # Alle Buttons holen und ausgeben
-    for i in range(joystick.get_numbuttons()):
-        print(joystick.get_button(i), end=" ")
-    print("-------")
+        # Alle Buttons holen und ausgeben
+        for i in range(joystick.get_numbuttons()):
+            print(joystick.get_button(i), end=" ")
+        print("-------")
+    
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt:")
+        sys.exit()
