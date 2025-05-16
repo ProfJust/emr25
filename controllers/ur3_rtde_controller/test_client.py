@@ -2,7 +2,15 @@
 # Hier wird das gewünschte Verzeichnis zur Suchliste (sys.path) hinzugefügt, sodass Python das Modul finden und importieren kann
 # Setze ein kleines r vor den String, damit Python die Backslashes nicht als Escape-Zeichen interpretiert
 import sys
-sys.path.insert(1, r"C:\mySciebo\_EMR25\emr25\ur_rtde_webot_control")
+import os
+
+# fixe Version des Pfades, bei jedem PC anders
+# path2rtde_files = r"C:\mySciebo\_EMR25\emr25\ur_rtde_webot_control_lib" 
+
+# Besser vom aktuellen Arbeitsverzeichnis ausgehen
+path2rtde_files = os.getcwd() + r"\ur_rtde_webot_control_lib"
+print("Add to sys ", path2rtde_files)
+sys.path.insert(1, path2rtde_files)
 
 from rtde_control import RTDEControlInterface
 from rtde_receive import RTDEReceiveInterface
