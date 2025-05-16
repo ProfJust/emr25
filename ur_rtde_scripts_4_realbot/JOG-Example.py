@@ -47,7 +47,7 @@ try:
             # **Alternative Optionen:**  
             #  - `FEATURE_BASE`: Bewegung relativ zum Basiskoordinatensystem (Roboterfuß).  
             # - `FEATURE_MOMENTARY_MOVEMENT`: Bewegung relativ zur aktuellen Position.
-            
+
             rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_BASE) 
 
         time.sleep(0.02)  # 20 ms Wartezeit
@@ -117,4 +117,18 @@ Bei `FEATURE_TOOL` hängt die Richtung der Bewegung von der aktuellen Ausrichtun
 
 ---
 Antwort von Perplexity: pplx.ai/share
+
+
+
+
+
+Joystick-Integration (Pseudocode)
+# Annahme: Joystick liefert Werte zwischen -1 und 1 für jede Achse
+joystick_x = 0.5  # Beispielwert vom Joystick
+joystick_z = -0.3
+
+speed_x = joystick_x * 0.2  # Max 0.2 m/s
+speed_z = joystick_z * 0.1  # Max 0.1 m/s
+
+rtde_c.jogStart([speed_x, 0, speed_z, 0, 0, 0], rtde_control.FEATURE_TOOL)
 """
