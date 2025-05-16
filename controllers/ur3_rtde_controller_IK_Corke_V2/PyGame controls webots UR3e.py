@@ -46,12 +46,15 @@ pygame.init()
 pygame.joystick.init()
 joystick = pygame.joystick.Joystick(0)
 joystick.init()
-nothalt = True
-print(" Not-Halt ist eingeschaltet, Start mit |>  - Play-Button")
+
 # Infos holen
 print("Anzahl der Achsen:", joystick.get_numaxes() )
 print("Anzahl der Buttons:", joystick.get_numbuttons() )
+print(" ===== >>>>   Analog Modus am Gamepad einschalten !!")
 # input("Weiter? -> Taste")
+
+nothalt = True
+print(" Not-Halt ist eingeschaltet, \n  Start mit |>  - Play-Button B10, \n  Nothalt auslösen mit B9")
 
 # rumble funktioniert beim HAMA nicht
 # joystick.rumble(1, 50, 0) #rumble(low_frequency, high_frequency, duration) -> bool
