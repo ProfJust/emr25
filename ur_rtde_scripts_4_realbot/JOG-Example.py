@@ -39,11 +39,82 @@ try:
             else:
                     speed_vector = [0, 0, 0, 0, 0, 0]  # Stopp
 
-            rtde_c.jogStart(speed_vector, rtde_control.C) 
+            # rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_TOOL) 
             # startet die "Jogging"-Bewegung (kontinuierliche Bewegung mit konstanter Geschwindigkeit).
+            ### **Der Parameter `FEATURE_TOOL`**
             # FEATURE_TOOL bedeutet, dass die Bewegung relativ zum Werkzeugkoordinatensystem erfolgt.
+            #   Mit `rtde_control.RTDEControlInterface.FEATURE_TOOL` wird festgelegt, dass sich die Bewegung **relativ zum Tool-Koordinatensystem** (Werkzeugorientierung) verhält.  
+            # **Alternative Optionen:**  
+            #  - `FEATURE_BASE`: Bewegung relativ zum Basiskoordinatensystem (Roboterfuß).  
+            # - `FEATURE_MOMENTARY_MOVEMENT`: Bewegung relativ zur aktuellen Position.
+            
+            rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_BASE) 
 
         time.sleep(0.02)  # 20 ms Wartezeit
 finally:
     rtde_c.jogStop()
     rtde_c.stopScript()
+
+
+"""
+## **Erklärung von `jogStart()` und dem Geschwindigkeitsvektor `[x, y, z, rx, ry, rz]`**
+
+### **Was macht `jogStart()`?**
+`jogStart()` ist eine Methode der `RTDEControlInterface`-Bibliothek für **Universal Robots (UR)**. Sie startet eine *Jogging-Bewegung* – also eine kontinuierliche Bewegung des Roboter-Tools (Werkzeugs) mit einer konstanten Geschwindigkeit in einer bestimmten Richtung.  
+**Wichtig:**  
+- Der Roboter bewegt sich so lange, bis `jogStop()` aufgerufen wird.  
+- Jogging wird oft für manuelle Steuerung (z.B. Teach-In) genutzt.
+
+---
+
+### **Der Geschwindigkeitsvektor `[x, y, z, rx, ry, rz]`**
+Der Vektor definiert die **Bewegungsrichtung und -geschwindigkeit** in 6 Dimensionen:
+1. **Lineare Geschwindigkeiten** (in m/s):
+   - `x`: Bewegung vor/rück (Tool-X-Achse)
+   - `y`: Bewegung links/rechts (Tool-Y-Achse)
+   - `z`: Bewegung auf/ab (Tool-Z-Achse)
+2. **Rotatorische Geschwindigkeiten** (in rad/s):
+   - `rx`: Drehung um die Tool-X-Achse (Roll)
+   - `ry`: Drehung um die Tool-Y-Achse (Pitch)
+   - `rz`: Drehung um die Tool-Z-Achse (Yaw)
+
+**Beispiel:**  
+- `[0.1, 0, 0, 0, 0, 0]` → Tool bewegt sich mit 0.1 m/s entlang seiner eigenen X-Achse.  
+- `[0, 0, 0, 0, 0, 0.5]` → Tool dreht sich mit 0.5 rad/s um seine eigene Z-Achse.
+
+---
+
+### **Der Parameter `FEATURE_TOOL`**
+Mit `rtde_control.RTDEControlInterface.FEATURE_TOOL` wird festgelegt, dass sich die Bewegung **relativ zum Tool-Koordinatensystem** (Werkzeugorientierung) verhält.  
+**Alternative Optionen:**  
+- `FEATURE_BASE`: Bewegung relativ zum Basiskoordinatensystem (Roboterfuß).  
+- `FEATURE_MOMENTARY_MOVEMENT`: Bewegung relativ zur aktuellen Position.
+
+**Praxis-Tipp:**  
+Bei `FEATURE_TOOL` hängt die Richtung der Bewegung von der aktuellen Ausrichtung des Tools ab. Wenn das Tool z.B. um 90 Grad gedreht ist, entspricht die Tool-X-Achse der Base-Y-Achse.
+
+---
+
+## **Wichtige Hinweise**
+1. **Sicherheit:**  
+   - Jogging-Bewegungen sind potentiell gefährlich, da der Roboter *kontinuierlich* läuft.  
+   - Immer einen Not-Aus in Reichweite haben und mit niedrigen Geschwindigkeiten testen (z.B. `speed_magnitude = 0.05`).
+
+2. **Koordinatensystem überprüfen:**  
+   - Die Richtungen `x/y/z` beziehen sich auf das Tool, nicht auf die Weltkoordinaten.  
+   - Nutze die UR-Polyscope-Oberfläche, um die Tool-Orientierung zu visualisieren.
+
+3. **Fehler im Code:**  
+   In deinem Skript fehlt die korrekte Behandlung der Pfeiltasten-Erkennung unter Windows (siehe vorherige Antwort). Ohne diese Korrektur reagiert das Skript nicht auf die Pfeiltasten.
+
+---
+
+## **Zusammenfassung**  
+- `jogStart()` startet eine Roboterbewegung mit konstanter Geschwindigkeit.  
+- Der Vektor `[x, y, z, rx, ry, rz]` legt Richtung und Geschwindigkeit fest.  
+- `FEATURE_TOOL` bedeutet: Die Bewegung erfolgt relativ zur aktuellen Werkzeugorientierung.  
+- **Teste den Code immer im Schrittmodus des Roboters und mit reduzierter Geschwindigkeit!**
+
+---
+Antwort von Perplexity: pplx.ai/share
+"""
