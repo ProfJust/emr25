@@ -1,12 +1,30 @@
 # Demo Joystik mit Webots emr25_world_2_IK_Corke.wbt
 # hama Gamepad an USB anschliessen
 # OJ 15.05.25
+# Wenn das Modul außerhalb des aktuellen Projektverzeichnisses liegt, musst du Python mitteilen, dass es auch in anderen Verzeichnissen nach Modulen suchen soll. 
+# Hier wird das gewünschte Verzeichnis zur Suchliste (sys.path) hinzugefügt, sodass Python das Modul finden und importieren kann
+# Setze ein kleines r vor den String, damit Python die Backslashes nicht als Escape-Zeichen interpretiert
+import sys
+import os
+# fixe Version des Pfades, bei jedem PC anders
+# path2rtde_files = r"C:\mySciebo\_EMR25\emr25\ur_rtde_webot_control" 
 
-
+# Besser vom aktuellen Arbeitsverzeichnis ausgehen
+path2rtde_files = os.getcwd() + r"\ur_rtde_webot_control"
+sys.path.insert(1, path2rtde_files)
 from rtde_control import RTDEControlInterface
 from rtde_receive import RTDEReceiveInterface
 from robotiq_gripper_control import RobotiqGripper
 import time
+
+
+### MAKE A BEEP ###
+import pygame # ggf. pip install pygame
+print(" THIS SOFTWARE IS UNDER HEAVY CONSTRUCTION ")
+pygame.mixer.init()
+sound = pygame.mixer.Sound('owin31.wav')
+sound.play()
+
 
 UR3_IP = "127.0.0.1"
 
