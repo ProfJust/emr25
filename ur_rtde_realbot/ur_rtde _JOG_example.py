@@ -1,4 +1,13 @@
-#jog-example https://sdurobotics.gitlab.io/ur_rtde/examples/examples.html
+# jog-example https://sdurobotics.gitlab.io/ur_rtde/examples/examples.html
+# changed to Python
+# Ziel => real UR3e per Gamepad steuern
+
+### MAKE A BEEP ###
+print(" THIS SOFTWARE IS UNDER HEAVY CONSTRUCTION ")
+import pygame
+pygame.mixer.init()
+sound = pygame.mixer.Sound('owin31.wav')
+sound.play()
 
 import rtde_control
 import msvcrt

@@ -1,3 +1,9 @@
+# Wenn das Modul außerhalb des aktuellen Projektverzeichnisses liegt, musst du Python mitteilen, dass es auch in anderen Verzeichnissen nach Modulen suchen soll. 
+# Hier wird das gewünschte Verzeichnis zur Suchliste (sys.path) hinzugefügt, sodass Python das Modul finden und importieren kann
+# Setze ein kleines r vor den String, damit Python die Backslashes nicht als Escape-Zeichen interpretiert
+import sys
+sys.path.insert(1, r"C:\mySciebo\_EMR25\emr25\ur_rtde_webot_control")
+
 from rtde_control import RTDEControlInterface
 from rtde_receive import RTDEReceiveInterface
 from robotiq_gripper_control import RobotiqGripper

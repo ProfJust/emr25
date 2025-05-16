@@ -43,7 +43,7 @@ class Ui(QWidget):
         # Lösung 2:
         # mit os kann man den Dateipfad bekommen um den kompletten Pfad zusammen zu bauen
         # Bsp: 
-        """#https://stackoverflow.com/questions/5137497/find-the-current-directory-and-files-directory
+        #https://stackoverflow.com/questions/5137497/find-the-current-directory-and-files-directory
         print("Path at terminal when executing this file")
         print(os.getcwd() + "\n")
         print("This file path, relative to os.getcwd()")
@@ -55,7 +55,7 @@ class Ui(QWidget):
         path, filename = os.path.split(full_path)
         print(path + ' --> ' + filename + "\n")
         print("This file directory only")
-        print(os.path.dirname(full_path)) """
+        print(os.path.dirname(full_path))
                 
         # This file directory and name of this file
         full_path = os.path.realpath(__file__)

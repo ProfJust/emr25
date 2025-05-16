@@ -1,8 +1,21 @@
+# Wenn das Modul außerhalb des aktuellen Projektverzeichnisses liegt, musst du Python mitteilen, dass es auch in anderen Verzeichnissen nach Modulen suchen soll. 
+# Hier wird das gewünschte Verzeichnis zur Suchliste (sys.path) hinzugefügt, sodass Python das Modul finden und importieren kann
+# Setze ein kleines r vor den String, damit Python die Backslashes nicht als Escape-Zeichen interpretiert
+import sys
+import os
+
+# fixe Version des Pfades, bei jedem PC anders
+# path2rtde_files = r"C:\mySciebo\_EMR25\emr25\ur_rtde_webot_control" 
+
+# Besser vom aktuellen Arbeitsverzeichnis ausgehen
+path2rtde_files = os.getcwd() + r"\ur_rtde_webot_control"
+sys.path.insert(1, path2rtde_files)
+
 from rtde_control import RTDEControlInterface
 from rtde_receive import RTDEReceiveInterface
 from robotiq_gripper_control import RobotiqGripper
 
-import sys
+
 print(sys.executable)
 # C:\Users\olafj\AppData\Local\Programs\Python\Python36-32\python.exe -m pip install roboticstoolbox-python
 

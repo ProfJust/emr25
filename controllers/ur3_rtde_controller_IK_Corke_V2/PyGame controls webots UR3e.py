@@ -1,4 +1,4 @@
-# Demo Joystik mit emr25_world_2_IK_Corke.wbt
+# Demo Joystik mit Webots emr25_world_2_IK_Corke.wbt
 # hama Gamepad an USB anschliessen
 # OJ 15.05.25
 
