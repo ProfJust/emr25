@@ -1,15 +1,13 @@
-# ur3_rtde_controller.py
+# ur3_rtde_controller_camera.py
 #-------------------------------------------------
 # Westfälische Hochschule - Campus Bocholt
 # Michael Engelmann und Olaf Just
 #-------------------------------------------------
-# ur3e-Roboter in Webots kann mit ur_rtde Befehlen
-# bewegt werden, fast so wie der reale Roboter
-# usage: Diesen Controller in Webots für den UR3e lasen
-# Test-Programm starten: test_client_IK.py
+# Ergänzt die Camera im Controller in der 
+# emr25_world_3_Tisch_Camera.wbt 
 # -------------------------------------------------
 # 
-# OJU added 
+# OJU 19.05.2025
 #----------------------------
 from controller import Robot
 import socket
@@ -37,11 +35,11 @@ robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 from controller import Robot
 
+##### ADD CAMERA ###################
 camera = robot.getDevice('cam1')  # 'cam' must match Camera node name
 camera.enable(timestep)          # timestep must be >0
-
 print("cam", camera)
-#while robot.step(timestep) != -1:
+# s.u. => while robot.step(timestep) != -1:
     #image = camera.getImage()
     # Bildverarbeitung hier
 
@@ -187,10 +185,11 @@ threading.Thread(target=server_thread, daemon=True).start()
 
 # Hauptsteuerungsschleife
 while robot.step(timestep) != -1:
+    # get image
     image = camera.getImage()
-    # save image to file
+    # save image to file, ACHTUNG: hält die Schleife auf!!!
     camera.saveImage("image1.jpg", 100)  # 100 = quality (for JPEG)
-    #while robot.step(timestep) != -1:
+    # while robot.step(timestep) != -1:
     #image = camera.getImage()
     # Bildverarbeitung hier
 
