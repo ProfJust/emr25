@@ -1,0 +1,86 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/universal_robots/protos/UR3e.proto"
+EXTERNPROTO "../protos/WoodenBox.proto"
+EXTERNPROTO "../protos/Robotiq2f85Gripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/festo/robotino3/protos/Robotino3Webcam.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.1553895610376683 0.00589297860555056 0.987835693384115 3.0667207027238854
+  position 3.8586261072548864 0.21718229349675433 2.6089987034887705
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Table {
+}
+WoodenBox {
+  translation 2.1129000381712008e-17 -0.34 0.7699607660685349
+  rotation 0.5186957584383917 -0.041527438194186056 -0.8539497538234025 1.2810370422894078e-16
+  name "wooden box(1)"
+  size 0.06 0.08 0.06
+}
+UR3e {
+  hidden position_0_0 -0.6699876879440253
+  hidden translation_1 0 0 0.152
+  hidden rotation_1 0 0 -1 0.16996377747419256
+  hidden position_1_0 -2.059998719459382
+  hidden translation_2 0 0.12 0
+  hidden rotation_2 0 1 0 0.010807545275110615
+  hidden position_2_0 -0.6201333042803397
+  hidden translation_3 0 -0.093 0.244
+  hidden rotation_3 0 -1 0 0.12013228461905963
+  hidden position_3_0 -1.9298588104686474
+  hidden translation_4 0 0 0.213
+  hidden rotation_4 0 1 0 0.14093873246818608
+  hidden position_4_0 0.9899657169365957
+  hidden translation_5 0 0.104 0
+  hidden rotation_5 0 0 1 1.489965365905332
+  hidden position_5_0 2.989993499700886
+  hidden translation_6 4.902250944480849e-05 3.0249325994838306e-05 0.086114850651376
+  hidden rotation_6 -1.9242933363218788e-06 0.9999999999639299 -8.272685007287418e-06 2.990002406125067
+  hidden position_9_0 0.009999953120024564
+  hidden position_9_1 0.05002115491366985
+  hidden position_9_2 0.010000078152190723
+  hidden position_9_3 0.01485804072836566
+  hidden translation_10 0 -0.030601 0.054904
+  hidden rotation_10 8.660178878363848e-10 0.004999955726997717 0.9999875001432409 3.14159299999567
+  hidden position_11_0 -0.0628203959294999
+  hidden translation_12 0 0.0061 0.0471
+  hidden rotation_12 -1 0 0 0.06282039592949835
+  hidden translation_14 0 -0.0127 0.06142
+  hidden rotation_14 4.331507897243659e-09 0.0250079700648658 0.9996872518109026 3.1415929998916607
+  hidden position_14_0 -0.10284159106802021
+  hidden translation_15 0 0.030601 0.054904
+  hidden rotation_15 1 0 0 0.010000078152172676
+  hidden position_16_0 0.013530178482662044
+  hidden translation_17 0 0.0061 0.0471
+  hidden rotation_17 1 0 0 0.01353017848267297
+  hidden translation_19 0 0.0127 0.06142
+  hidden rotation_19 1 0 0 0.01485804072836722
+  hidden position_19_0 0.008672189935743528
+  translation 0 0 0.94
+  controller "ur3_rtde_controller_camera"
+  toolSlot [
+    Robotino3Webcam {
+      name "cam1"
+    }
+    Robotiq2f85Gripper {
+      rotation 1 0 0 -1.5708
+    }
+  ]
+}
+WoodenBox {
+  translation -2.816810867516518e-17 1.2795868892336255e-18 0.839960766068535
+  rotation -0.12740344778277748 -0.2548068955655745 -0.9585623649326607 8.365661386631146e-17
+  size 0.2 0.2 0.2
+}
+Floor {
+}

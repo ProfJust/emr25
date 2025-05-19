@@ -7,10 +7,11 @@
 import sys
 import os
 # fixe Version des Pfades, bei jedem PC anders
-# path2rtde_files = r"C:\mySciebo\_EMR25\emr25\ur_rtde_webot_control" 
+#path2rtde_files = r"C:\Users\RoboAdmin\mySciebo\_EMR25\labor\emr25\ur_rtde_webot_control_lib" 
 
 # Besser vom aktuellen Arbeitsverzeichnis ausgehen
-path2rtde_files = os.getcwd() + r"\ur_rtde_webot_control"
+path2rtde_files = os.getcwd() + r"\ur_rtde_webot_control_lib"
+print(path2rtde_files)
 sys.path.insert(1, path2rtde_files)
 from rtde_control import RTDEControlInterface
 from rtde_receive import RTDEReceiveInterface
