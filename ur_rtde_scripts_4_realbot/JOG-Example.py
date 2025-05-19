@@ -5,6 +5,9 @@
 # jogStart() startet die "Jogging"-Bewegung 
 # https://sdurobotics.gitlab.io/ur_rtde/examples/examples.html#jog-example
 
+# Last edited by Olaf Just at 19.05.2025
+# Tested on UR5e 
+#--------------------------------------------------------------------------------
 import rtde_control
 import msvcrt
 import time
@@ -13,39 +16,43 @@ ROBOT_IP = "192.168.0.3"
 rtde_c = rtde_control.RTDEControlInterface(ROBOT_IP)
 
 # TCP soll bewegt werden
-speed_magnitude = 0.05  # Geschwindigkeit in m/s
+speed_magnitude = 0.03  # Geschwindigkeit in m/s
 # Die Roboterbewegung wird als 6D-Vektor definiert (3 lineare + 3 rotatorische Achsen).
 speed_vector = [0, 0, 0, 0, 0, 0] # [x, y, z, rx, ry, rz]
 
+input(" Roboter TCP mit Pfeiltasten bewegen, q => STOP, <weiter mit ENTER> ")
 try:
     while True:
+        speed_vector = [0, 0, 0, 0, 0, 0]  # Stopp
         if msvcrt.kbhit():  # Prüft, ob eine Taste gedrückt wurde
             key = msvcrt.getch()  # Liest die Taste
             if key == b'\xe0':
                 key = msvcrt.getch()
                 if key == b'H':  # Pfeil-oben
-                    speed_vector = [0, 0, -speed_magnitude, 0, 0, 0]
-                elif key == b'P':  # Pfeil-unten
                     speed_vector = [0, 0, speed_magnitude, 0, 0, 0]
+                elif key == b'P':  # Pfeil-unten
+                    speed_vector = [0, 0, -speed_magnitude, 0, 0, 0]
                 elif key == b'K':  # Pfeil-links
                     speed_vector = [speed_magnitude, 0, 0, 0, 0, 0]
                 elif key == b'M':  # Pfeil-rechts
                     speed_vector = [-speed_magnitude, 0, 0, 0, 0, 0]
             elif key == b'q':  # Beenden der Schleife => jogStop (s.u.)
                     break
-            else:
-                    speed_vector = [0, 0, 0, 0, 0, 0]  # Stopp
+            elif key == b' ':  # Beenden der Schleife => jogStop (s.u.)
+                    break
+            #else:
+               
 
-            # rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_TOOL) 
-            # startet die "Jogging"-Bewegung (kontinuierliche Bewegung mit konstanter Geschwindigkeit).
-            ### **Der Parameter `FEATURE_TOOL`**
-            # FEATURE_TOOL bedeutet, dass die Bewegung relativ zum Werkzeugkoordinatensystem erfolgt.
-            #   Mit `rtde_control.RTDEControlInterface.FEATURE_TOOL` wird festgelegt, dass sich die Bewegung **relativ zum Tool-Koordinatensystem** (Werkzeugorientierung) verhält.  
-            # **Alternative Optionen:**  
-            #  - `FEATURE_BASE`: Bewegung relativ zum Basiskoordinatensystem (Roboterfuß).  
-            # - `FEATURE_MOMENTARY_MOVEMENT`: Bewegung relativ zur aktuellen Position.
+        # rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_TOOL) 
+        # startet die "Jogging"-Bewegung (kontinuierliche Bewegung mit konstanter Geschwindigkeit).
+        ### **Der Parameter `FEATURE_TOOL`**
+        # FEATURE_TOOL bedeutet, dass die Bewegung relativ zum Werkzeugkoordinatensystem erfolgt.
+        #   Mit `rtde_control.RTDEControlInterface.FEATURE_TOOL` wird festgelegt, dass sich die Bewegung **relativ zum Tool-Koordinatensystem** (Werkzeugorientierung) verhält.  
+        # **Alternative Optionen:**  
+        # - `FEATURE_BASE`: Bewegung relativ zum Basiskoordinatensystem (Roboterfuß).  
+        # - `FEATURE_MOMENTARY_MOVEMENT`: Bewegung relativ zur aktuellen Position.
 
-            rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_BASE) 
+        rtde_c.jogStart(speed_vector, rtde_control.RTDEControlInterface.FEATURE_BASE) 
 
         time.sleep(0.02)  # 20 ms Wartezeit
 finally:
