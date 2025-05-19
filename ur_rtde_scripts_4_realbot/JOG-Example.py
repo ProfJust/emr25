@@ -9,9 +9,6 @@ import rtde_control
 import msvcrt
 import time
 
-
-################### NO TESTED YET ##########################
-
 ROBOT_IP = "192.168.0.3"
 rtde_c = rtde_control.RTDEControlInterface(ROBOT_IP)
 
