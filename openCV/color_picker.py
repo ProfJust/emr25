@@ -3,6 +3,7 @@
 # !!!!!! Nur Aufruf aus der Konsole möglich !!!!
 # cd C:\mySciebo\_SRO\UR_Programme_Python\SRO_OpenCV>
 # >python color_picker.py -i Prof_mit_Kugel.jpeg
+# python color_picker.py -i image1.jpg
 import argparse
 import cv2
 import imutils   # ggf. pip install imutils
@@ -34,7 +35,7 @@ if args["lower"] and args["upper"]:
 
 # Load image, resize to 600 width, and convert color to HSV
 #image = cv2.imread(args[r"image"])
-image = cv2.imread("foto01.jpg")
+image = cv2.imread(r"C:\mySciebo\_EMR25\emr25\openCV\image1.jpg")
 image = imutils.resize(image, width=600)
 hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
