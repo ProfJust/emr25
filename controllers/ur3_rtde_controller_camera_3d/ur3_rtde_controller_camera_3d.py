@@ -47,57 +47,27 @@ range_finder = robot.getDevice("my_range_finder")
 range_finder.enable(timestep)
 
 #### TCP ermitteln ##############################################################
+import roboticstoolbox as rtb
 import numpy as np
 
-# DH-Parameter für UR3e (in Metern und Radians)
+# DH-Parameter für UR3e (a, d, alpha, theta)
 dh_params = [
-    {'a': 0,      'd': 0.1519, 'alpha': np.pi/2},
-    {'a': -0.24365, 'd': 0,      'alpha': 0},
-    {'a': -0.21325,  'd': 0,      'alpha': 0},
-    {'a': 0,      'd': 0.11235, 'alpha': np.pi/2},
-    {'a': 0,      'd': 0.08535, 'alpha': -np.pi/2},
-    {'a': 0,      'd': 0.0819, 'alpha': 0}
+    [0, 0.1519, np.pi/2, 0],    # Gelenk 1
+    [0.2435, 0, 0, 0],          # Gelenk 2
+    [0.213, 0, 0, 0],           # Gelenk 3
+    [0, 0.11235, np.pi/2, 0],   # Gelenk 4
+    [0, 0.08535, -np.pi/2, 0],  # Gelenk 5
+    [0, 0.0921, 0, 0]           # Gelenk 6
 ]
 
-def compute_forward_kinematics(joint_angles):
-    T = np.eye(4)
-    
-    # DH-Transformationen
-    for i in range(6):
-        theta = joint_angles[i]
-        a = dh_params[i]['a']
-        d = dh_params[i]['d']
-        alpha = dh_params[i]['alpha']
-        
-        Ti = np.array([
-            [np.cos(theta), -np.sin(theta)*np.cos(alpha),  np.sin(theta)*np.sin(alpha), a*np.cos(theta)],
-            [np.sin(theta),  np.cos(theta)*np.cos(alpha), -np.cos(theta)*np.sin(alpha), a*np.sin(theta)],
-            [0,              np.sin(alpha),                np.cos(alpha),               d               ],
-            [0,              0,                            0,                           1               ]
-        ])
-        T = np.dot(T, Ti)
-    
-    # Korrekturmatrix **nach** den DH-Transformationen
-    R_correct = np.array([
-        [0, 1, 0, 0],    # X_Webots = Y_DH
-        [-1, 0, 0, 0],   # Y_Webots = -X_DH
-        [0, 0, 1, 0],    # Z bleibt gleich
-        [0, 0, 0, 1]
-    ])
-    T = np.dot(T, R_correct)
+# Roboter mit DH-Parametern erstellen
+ur3e = rtb.DHRobot([
+    rtb.RevoluteDH(d=link[1], a=link[0], alpha=link[2]) for link in dh_params
+])
 
-    # Nach der Koordinatensystem-Korrektur:
-    T_offset = np.array([
-        [1, 0, 0, 0],
-        [0, 1, 0, 0],
-        [0, 0, 1, -0.174],  # 174 mm in Z-Richtung
-        [0, 0, 0, 1]
-    ])  
-    T = np.dot(T, T_offset)
-    
-    return T
-# sollte ergeben [-0.4565, 0, 0.6655]
-#ergibt TCP-Position: [-0.4569  -0.02025  0.06655]
+# Neutrale Gelenkwinkel (θ1–θ6 = 0)
+q = np.array([0, 0, 0, 0, 0, 0])
+
 #### TCP ermitteln ##############################################################
 
 # Debug: Zeige alle verfügbaren Devices
@@ -268,10 +238,16 @@ while robot.step(timestep) != -1:
         print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:.2f}, {current_joint_angles[1]:.2f}, {current_joint_angles[2]:.2f}, {current_joint_angles[3]:.2f}, {current_joint_angles[4]:.2f}, {current_joint_angles[5]:.2f}",     end=" ")
         #print("aktuelle Gelenkwinkel: ", current_joint_angles, end=" ")                               
                                    
-        #####  TCP ##################     
-        T = compute_forward_kinematics(current_joint_angles)
-        print("TCP-Position:", T[:3, 3])
-        print(" TCP ###### FUNKTIONIERT NICHT wie es soll ")  
+        #####  TCP ##################           
+        # Vorwärtskinematik berechnen
+        T = ur3e.fkine(current_joint_angles)
+        # print("TCP-Pose (SE3-Objekt):\n", T)
+        print("TCP-Position (x, y, z):", T.t)
+        #print("TCP-Orientierung (Rotationsmatrix):\n", T.R)
+        #   
+        #T = compute_forward_kinematics(current_joint_angles)
+        #print("TCP-Position:", T[:3, 3])
+        # print(" TCP ###### FUNKTIONIERT NICHT wie es soll ")  
 
         #tcp_position = T[:3, 3]          # [x, y, z] in Metern
         # tcp_orientation = T[:3, :3]      # 3x3 Rotationsmatrix      
