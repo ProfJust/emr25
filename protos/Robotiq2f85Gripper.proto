@@ -604,7 +604,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
           }
         }
       }
-    ]
+    ] # Ende Children
     name IS name
     boundingObject Group {
       children [

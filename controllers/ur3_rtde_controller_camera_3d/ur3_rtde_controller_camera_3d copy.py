@@ -10,6 +10,8 @@
 # OJU 19.05.2025
 #----------------------------
 from controller import Robot
+#from controller import Supervisor  
+#nutze robot für alle weiteren Gerätezugriffe (Kamera, Motoren, etc.), da Supervisor von Robot erbt.
 import socket
 import threading
 import json
@@ -46,40 +48,16 @@ print("cam", camera)
 range_finder = robot.getDevice("my_range_finder")
 range_finder.enable(timestep)
 
-#### TCP ermitteln ##############################################################
-import numpy as np
-
-# DH-Parameter für UR3e (in Metern und Radians)
-dh_params = [
-    {'a': 0,      'd': 0.1519, 'alpha': np.pi/2},
-    {'a': 0.2435, 'd': 0,      'alpha': 0},
-    {'a': 0.213,  'd': 0,      'alpha': 0},
-    {'a': 0,      'd': 0.1123, 'alpha': np.pi/2},
-    {'a': 0,      'd': 0.0853, 'alpha': -np.pi/2},
-    {'a': 0,      'd': 0.0921, 'alpha': 0}
-]
-
-def compute_forward_kinematics(joint_angles):
-    T = np.eye(4)  # Identitätsmatrix als Start
-    for i in range(6):
-        theta = joint_angles[i]
-        a = dh_params[i]['a']
-        d = dh_params[i]['d']
-        alpha = dh_params[i]['alpha']
-        
-        # Einzelne Transformationsmatrix berechnen
-        Ti = np.array([
-            [np.cos(theta), -np.sin(theta)*np.cos(alpha),  np.sin(theta)*np.sin(alpha), a*np.cos(theta)],
-            [np.sin(theta),  np.cos(theta)*np.cos(alpha), -np.cos(theta)*np.sin(alpha), a*np.sin(theta)],
-            [0,              np.sin(alpha),                np.cos(alpha),               d               ],
-            [0,              0,                            0,                           1               ]
-        ])
-        T = np.dot(T, Ti)  # Matrizen multiplizieren
-    return T
-
-#### TCP ermitteln ##############################################################
-
-
+"""#### ADD TCP Positionn Supervisor ####
+# Node-Name des TCP, z.B. 'UR3e_tcp' im Scene Tree
+# Siehe DEF im Proto Files
+node_name = 'INNER_FINGER_PAD'
+tcp_node = robot.getFromDef(node_name)
+if tcp_node is None:
+    print("❌ Kein Node mit DEF",node_name, " gefunden!")
+else:
+    tcp_pose = tcp_node.getPosition()
+"""
 
 # Debug: Zeige alle verfügbaren Devices
 print("🔍 Verfügbare Devices:")
@@ -239,8 +217,11 @@ while robot.step(timestep) != -1:
     #print("Distance ", distance)
     #range_finder.saveImage("image_rf1.jpg", 100)
 
-   
-
+    """tcp_pose = tcp_node.getPosition()
+    tcp_orientation = tcp_node.getOrientation()
+    print(" TCP Posn:", tcp_pose, end=" ")
+    print(" TCP Ortn:", tcp_orientation)
+    """
    
     with lock:
         # Aktuelle Gelenkpositionen aktualisieren
@@ -248,17 +229,7 @@ while robot.step(timestep) != -1:
             sensors[name].getValue() if name in sensors else 0.0
             for name in joint_names
         ]
-        #formatierte Ausgabe
-        print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:.2f}, {current_joint_angles[1]:.2f}, {current_joint_angles[2]:.2f}, {current_joint_angles[3]:.2f}, {current_joint_angles[4]:.2f}, {current_joint_angles[5]:.2f}",     end=" ")
-        #print("aktuelle Gelenkwinkel: ", current_joint_angles, end=" ")                               
-                                   
-        # print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
-        # TCP? 
-        T = compute_forward_kinematics(current_joint_angles)
-        tcp_position = T[:3, 3]          # [x, y, z] in Metern
-        tcp_orientation = T[:3, :3]      # 3x3 Rotationsmatrix      
-        print(" TCP: ",tcp_position )
-        
+        print("aktuelle Gelenkwinkel ", current_joint_angles )
         # Roboterbewegung steuern
         for name, angle in zip(joint_names, target_joint_angles):
             if name in motors:
