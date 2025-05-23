@@ -8,16 +8,15 @@ import numpy as np
 # DH-Parameter für UR3e (in Metern und Radians)
 dh_params = [
     {'a': 0,      'd': 0.1519, 'alpha': np.pi/2},
-    {'a': -0.24365, 'd': 0,      'alpha': 0},
-    {'a': -0.21325,  'd': 0,      'alpha': 0},
+    {'a': 0.2435, 'd': 0,      'alpha': 0},
+    {'a': 0.213,  'd': 0,      'alpha': 0},
     {'a': 0,      'd': 0.11235, 'alpha': np.pi/2},
     {'a': 0,      'd': 0.08535, 'alpha': -np.pi/2},
-    {'a': 0,      'd': 0.0819, 'alpha': 0}
+    {'a': 0,      'd': 0.0921, 'alpha': 0}
 ]
 
 def compute_forward_kinematics(joint_angles):
-    T = np.eye(4)
-    
+    T = np.eye(4)    
     # DH-Transformationen
     for i in range(6):
         theta = joint_angles[i]
@@ -31,7 +30,7 @@ def compute_forward_kinematics(joint_angles):
             [0,              np.sin(alpha),                np.cos(alpha),               d               ],
             [0,              0,                            0,                           1               ]
         ])
-        T = np.dot(T, Ti)
+        T = np.dot(T, Ti) # Matrixmultiplikation
     
     # Korrekturmatrix **nach** den DH-Transformationen
     R_correct = np.array([
@@ -49,7 +48,7 @@ def compute_forward_kinematics(joint_angles):
         [0, 0, 1, -0.174],  # 174 mm in Z-Richtung
         [0, 0, 0, 1]
     ])  
-    T = np.dot(T, T_offset)
+    #T = np.dot(T, T_offset)
     
     return T
 # sollte ergeben [-0.4565, 0, 0.6655]
@@ -59,6 +58,4 @@ def compute_forward_kinematics(joint_angles):
 current_joint_angles = [0, 0, 0, 0, 0, 0] # => sollte ergeben [-0.4565, 0, 0.6655]
 #                                                     ergibt  [0.4565, -0.19425, 0.06655]
 T = compute_forward_kinematics(current_joint_angles)
-
-
 print("TCP-Position:", T[:3, 3])  # Erwartet: [-0.4565, 0, 0.6655]
