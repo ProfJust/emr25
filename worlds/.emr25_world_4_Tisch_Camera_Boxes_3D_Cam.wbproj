@@ -7,5 +7,5 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: -1
 consoles: Console:All:All
-renderingDevicePerspectives: UR3e:cam1;1;0.375254;0.684684;0
-renderingDevicePerspectives: UR3e:my_range_finder;1;1;0.0109395;0.0290698
+renderingDevicePerspectives: UR3e:cam1;0;0.212319;0.820463;0.0174419
+renderingDevicePerspectives: UR3e:my_range_finder;0;0.52348;0.779279;0.309593
