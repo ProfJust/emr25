@@ -252,12 +252,12 @@ while robot.step(timestep) != -1:
         print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:.2f}, {current_joint_angles[1]:.2f}, {current_joint_angles[2]:.2f}, {current_joint_angles[3]:.2f}, {current_joint_angles[4]:.2f}, {current_joint_angles[5]:.2f}",     end=" ")
         #print("aktuelle Gelenkwinkel: ", current_joint_angles, end=" ")                               
                                    
-        # print(f"X: {x:.2f}, Y: {y:.2f}, 2: {a2:.2f},4: {a4:.2f}", end=" ")
-        # TCP? 
+        #####  TCP ################## 
         T = compute_forward_kinematics(current_joint_angles)
         tcp_position = T[:3, 3]          # [x, y, z] in Metern
         tcp_orientation = T[:3, :3]      # 3x3 Rotationsmatrix      
-        print(" TCP: ",tcp_position )
+       #print(" TCP: ",tcp_position )
+        print(f" TCP: {tcp_position[0]:.2f},  {tcp_position[1]:.2f}, {tcp_position[2]:.2f}")
         
         # Roboterbewegung steuern
         for name, angle in zip(joint_names, target_joint_angles):
