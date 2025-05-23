@@ -1,0 +1,142 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "../protos/UR3e.proto"
+EXTERNPROTO "../protos/WoodenBox.proto"
+EXTERNPROTO "../protos/Robotiq2f85Gripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/festo/robotino3/protos/Robotino3Webcam.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Cardboard.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.3267846788933827 0.0009810083427003403 -0.9450983077242179 3.1359064089518416
+  position 1.5823116006221176 0.3127637843529015 2.2657792930688645
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Table {
+}
+UR3e {
+  hidden position_0_0 1.7700275421417315
+  hidden translation_1 0 0 0.152
+  hidden rotation_1 0 0 1 2.270051452611578
+  hidden position_1_0 -0.9999842007396431
+  hidden linearVelocity_1 1.4907044215829385e-07 2.8232788973325724e-07 6.448544781314635e-11
+  hidden angularVelocity_1 -2.09482051311795e-09 -4.552861134811143e-09 0.000275336167787652
+  hidden translation_2 0 0.12 0
+  hidden rotation_2 0 1 0 1.0708220639947608
+  hidden position_2_0 1.7600032728330828
+  hidden linearVelocity_2 -9.921716557415864e-07 -4.36907083360153e-05 -7.914152855402521e-10
+  hidden angularVelocity_2 2.9862906717782745e-09 -1.3188411569428626e-08 0.0002752563668069125
+  hidden translation_3 0 -0.093 0.244
+  hidden rotation_3 0 1 0 1.6399992422432246
+  hidden position_3_0 -1.5599997998818484
+  hidden linearVelocity_3 -4.924105486513234e-05 -5.076313278237047e-05 -1.299996908352851e-10
+  hidden angularVelocity_3 3.799384190968829e-08 -4.0100189040067616e-08 0.0002752343491120871
+  hidden translation_4 0 0 0.213
+  hidden rotation_4 0 1 0 0.5107977430549819
+  hidden position_4_0 2.330000534005632
+  hidden linearVelocity_4 -5.8506814404546316e-05 -5.8509348539120415e-05 7.797295878940103e-11
+  hidden angularVelocity_4 4.137696519324847e-08 -4.417185026968819e-08 0.00027523005477327555
+  hidden translation_5 0 0.104 0
+  hidden rotation_5 0 0 1 2.830000182974363
+  hidden position_5_0 1.6400001373655133
+  hidden linearVelocity_5 -4.002131536173565e-05 -8.03242116729127e-05 -6.144923838961699e-09
+  hidden angularVelocity_5 -3.0612401804309196e-07 3.703389761433667e-07 0.00028203777892852754
+  hidden translation_6 -0.0010770476254795996 3.0249325994838252e-05 0.08529199930437333
+  hidden rotation_6 5.001284973532185e-06 0.9999999999329142 -1.0447913116259808e-05 1.640009043775574
+  hidden linearVelocity_6 -5.362955066036641e-05 -6.922907284732783e-05 -3.3925618558539084e-08
+  hidden angularVelocity_6 -1.021436814890346e-06 -7.685429811529355e-07 0.00028206947148381995
+  hidden position_7_0 0.010000052975625869
+  hidden position_7_1 0.048738375287881136
+  hidden position_7_2 0.010000000984870548
+  hidden position_7_3 0.014323829708333213
+  hidden translation_8 0 -0.030601 0.054904
+  hidden rotation_8 8.66026506653994e-10 0.005000005654174324 0.9999874998936029 3.1415929999956695
+  hidden linearVelocity_8 -7.985158121035996e-05 -6.920584586458549e-05 -1.289906704884051e-07
+  hidden angularVelocity_8 -1.023273016531915e-06 -7.748705851497985e-07 0.00028181098790530136
+  hidden position_9_0 -0.06600569855887635
+  hidden translation_10 0 0.0061 0.0471
+  hidden rotation_10 -1 0 0 0.06600569855887928
+  hidden linearVelocity_10 -9.598432535513053e-05 -6.182326185193688e-05 -1.6734883473013584e-07
+  hidden angularVelocity_10 -1.022252318864544e-06 -7.713563519907182e-07 0.00028195454183806097
+  hidden translation_12 0 -0.0127 0.06142
+  hidden rotation_12 4.220449762673286e-09 0.02436677574553586 0.9997030860409339 3.1415929998971457
+  hidden position_12_0 -0.10474405747004244
+  hidden linearVelocity_12 -7.644420125883015e-05 -5.912736003321523e-05 -8.900336423706228e-08
+  hidden angularVelocity_12 -1.0236076973232503e-06 -7.760238914648155e-07 0.00028176389337787117
+  hidden translation_13 0 0.030601 0.054904
+  hidden rotation_13 1 0 0 0.010000000984861705
+  hidden linearVelocity_13 -6.50305979556018e-05 -4.560321095791703e-05 -1.0971762615375108e-08
+  hidden angularVelocity_13 -1.0195995150150355e-06 -7.622161565227056e-07 0.00028232793325642117
+  hidden position_14_0 0.011027819652823652
+  hidden translation_15 0 0.0061 0.0471
+  hidden rotation_15 1 0 0 0.011027819652835173
+  hidden linearVelocity_15 -7.869293342332964e-05 -3.467795936736222e-05 -3.0895915798188247e-08
+  hidden angularVelocity_15 -1.0221959040110488e-06 -7.711590766624769e-07 0.0002819626475770583
+  hidden translation_17 0 0.0127 0.06142
+  hidden rotation_17 1 0 0 0.014323829708331369
+  hidden position_17_0 0.0067039666365463196
+  hidden linearVelocity_17 -7.263315329223567e-05 -5.3059581682907944e-05 -5.8700350038917e-08
+  hidden angularVelocity_17 -1.0194883666270683e-06 -7.61833920183332e-07 0.0002823435416601421
+  translation 0 0 0.94
+  controller "ur3_rtde_controller_camera_3d"
+  toolSlot [
+    Robotiq2f85Gripper {
+      rotation 1 0 0 -1.5708
+    }
+  ]
+  camSlot [
+    RangeFinder {
+      translation -0.0200017 0.18 0.96
+      rotation 0 1 0 1.5708
+      name "my_range_finder"
+      fieldOfView 0.9
+      width 320
+      height 240
+      near 0.1
+      minRange 0.1
+      maxRange 1.2
+    }
+    Robotino3Webcam {
+      translation -3.2319e-05 0.20524500000000004 0.9371404604746933
+      rotation -7.437317691176877e-06 0.7070757804970856 0.7071377804778385 -3.1415853071795845
+      name "cam1"
+    }
+  ]
+}
+WoodenBox {
+  translation -0.0010977221215181419 -0.050921494470589676 0.8380380002731842
+  rotation 0.007576656311678332 0.707086484908011 0.7070864849080115 3.126439630918728
+  size 0.2 0.2 0.2
+  mass 5
+}
+Floor {
+}
+Solid {
+  translation 0.07183680001725075 0.4239449679834288 0.7649597070288892
+  rotation 0.5773504130233978 -0.5773501972727264 -0.5773501972727263 2.0943948866425512
+  children [
+    Shape {
+      appearance Cardboard {
+        colorOverride 0.3 0.9 0.2
+      }
+      geometry Box {
+        size 0.05 0.1 0.05
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 0.1
+  }
+}
