@@ -9,7 +9,7 @@
 # 
 # OJU 19.05.2025
 #----------------------------
-from controller import Robot
+from controller import Supervisor # was Robot
 import socket
 import threading
 import json
@@ -23,12 +23,13 @@ SERVER_PORT = 30010
 # UR3e Home-Position 
 #HOME_POSITION =[ 1.77, 1.00, 1.76, -1.56, 2.33, 1.64] #irgendeine
 
-# HOME_POSITION_GRAD = [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
+
 # HOME_POSITION = [3.894989504502283e-06, -1.1196710709038271e-05, 3.75, 0.00021631375190624204, -7.870102380896915e-05, -4.415480779567577e-06]
 # Neutrale Pose  0.0, 0.0, 0.0, 0.0, 0.0, 0.0 # 
 
 HOME_POSITION = [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]  # in rad
-HOME_POSITION_GRAD = [ 0.00, -87.73, -7.63, -0.28, 0.87, 0.22]  #Foto aufrechte Position
+#HOME_POSITION_GRAD = [ 0.00, -87.73, -7.63, -0.28, 0.87, 0.22]  #Foto aufrechte Position
+HOME_POSITION_GRAD = [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
 i = 0
 for wert in HOME_POSITION_GRAD: 
     HOME_POSITION[i] = wert *m.pi/190 # m.radians(wert)
@@ -41,7 +42,9 @@ GRIPPER_CLOSE_POS = 0.0  # Geschlossen
 GRIPPER_SPEED = 1.0      # Rad/s
 
 # Initialisiere Webots-Roboter
-robot = Robot() # Supervisor() ??
+robot = Supervisor() # was Robot() 
+tool_slot = robot.getFromDef("TOOL_SLOT")  
+
 timestep = int(robot.getBasicTimeStep())
 
 ##### ADD CAMERA ###################
@@ -76,7 +79,7 @@ ur3e = rtb.DHRobot([
 ])
 
 # Neutrale Gelenkwinkel (θ1–θ6 = 0)
-q = np.array([0, 0, 0, 0, 0, 0])
+# q = np.array([0, 0, 0, 0, 0, 0])
 
 #### TCP ermitteln ##############################################################
 
@@ -246,9 +249,13 @@ while robot.step(timestep) != -1:
             for name in joint_names
         ]
         #formatierte Ausgabe
-        print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:.2f}, {current_joint_angles[1]:.2f}, {current_joint_angles[2]:.2f}, {current_joint_angles[3]:.2f}, {current_joint_angles[4]:.2f}, {current_joint_angles[5]:.2f}",     end=" ")
+        # print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:.2f}, {current_joint_angles[1]:.2f}, {current_joint_angles[2]:.2f}, {current_joint_angles[3]:.2f}, {current_joint_angles[4]:.2f}, {current_joint_angles[5]:.2f}",     end=" ")
         #print("aktuelle Gelenkwinkel: ", current_joint_angles, end=" ")                               
-                                   
+          
+        if tool_slot:
+            print("Tool-Slot-Position:", tool_slot.getPosition())
+        else:
+            print("DEF 'TOOL_SLOT' nicht gefunden. Proto-Datei prüfen!")                 
         #####  TCP ##################           
         # Vorwärtskinematik berechnen
         T = ur3e.fkine(current_joint_angles)  # fkine-Methode ergibt ein SE3-Objekt

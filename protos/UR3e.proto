@@ -369,7 +369,7 @@ PROTO UR3e [
                         HingeJoint {
                           jointParameters HingeJointParameters {
                             axis 0 1 0
-                            anchor 0 0 0.213
+                            anchor 0 0 0.13105   #was  0.213
                           }
                           device [
                             RotationalMotor {
@@ -384,7 +384,7 @@ PROTO UR3e [
                             }
                           ]
                           endPoint Solid {
-                            translation 0 0 0.213
+                            translation 0 0 0.13105   # was  0.213
                             rotation 0 1 0 1.570796
                             children [
                               Shape {
@@ -486,7 +486,7 @@ PROTO UR3e [
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
                                         axis 0 1 0
-                                        anchor 0 0 0.085
+                                        anchor 0 0 0.0921  # was 0.085
                                       }
                                       device [
                                         RotationalMotor {
@@ -501,15 +501,15 @@ PROTO UR3e [
                                         }
                                       ]
                                       endPoint Solid {
-                                        translation 0 0 0.085
+                                        translation 0 0 0.0921  # was 0.085
                                         children [
                                           Shape {
                                             appearance USE METAL_APPEARANCE
                                             geometry Mesh {
                                               url "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/universal_robots/protos/UR3e/meshes/wrist_3_link_0.obj"
                                             }
-                                          }
-                                          Pose {
+                                          } 
+                                          DEF TOOL_SLOT Pose {   # Name einfügen
                                             translation 0 0.09 0
                                             children IS toolSlot
                                           }
