@@ -22,15 +22,17 @@ SERVER_PORT = 30010
 
 # UR3e Home-Position 
 #HOME_POSITION =[ 1.77, 1.00, 1.76, -1.56, 2.33, 1.64] #irgendeine
-# HOME_POSITION = [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]  # in rad
+
 # HOME_POSITION_GRAD = [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
-HOME_POSITION = [3.894989504502283e-06, -1.1196710709038271e-05, 3.75, 0.00021631375190624204, -7.870102380896915e-05, -4.415480779567577e-06]
+# HOME_POSITION = [3.894989504502283e-06, -1.1196710709038271e-05, 3.75, 0.00021631375190624204, -7.870102380896915e-05, -4.415480779567577e-06]
 # Neutrale Pose  0.0, 0.0, 0.0, 0.0, 0.0, 0.0 # 
-#HOME_POSITION_GRAD = [ 0.00, -87.73, -7.63, -0.28, 0.87, 0.22]  #Foto aufrechte Position
-#i = 0
-#for wert in HOME_POSITION_GRAD: 
-#    HOME_POSITION[i] = wert *m.pi/190 # m.radians(wert)
-#    i = i+1
+
+HOME_POSITION = [ 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]  # in rad
+HOME_POSITION_GRAD = [ 0.00, -87.73, -7.63, -0.28, 0.87, 0.22]  #Foto aufrechte Position
+i = 0
+for wert in HOME_POSITION_GRAD: 
+    HOME_POSITION[i] = wert *m.pi/190 # m.radians(wert)
+    i = i+1
 print ("Home Pos: ", HOME_POSITION)
 
 # Gripper-Konfiguration (Anpassen an Ihre Webots-Welt!)
@@ -65,7 +67,7 @@ dh_params = [
     [-0.2133, 0.0000,   0.00000, 0],    # Gelenk 3 Elbow
     [ 0.0000, 0.11235,  np.pi/2, 0],    # Gelenk 4 Wrist1
     [ 0.0000, 0.08535, -np.pi/2, 0],    # Gelenk 5 Wrist 2
-    [ 0.0000, 0.2559,         0, 0]     # Gelenk 6 Wrist 3    d= 0.0819 mit Gripper + 0,174 => 0,2559
+    [ 0.0000, 0.2559,         0, 0]     # Gelenk 6 Wrist 3    d= 0.0819 mit Gripper + 0.174 => 0.2559
 ]
 
 # Roboter mit DH-Parametern erstellen
@@ -123,14 +125,6 @@ def inverse_kinematics(cartesian_pose):
     angles = cartesian_pose # Dummy-Implementierung
     return angles if len(angles) == 6 else None
 #---------- HIER DIE IK UMSETZEN ----!!!
-
-# Koordinatensystem-Unterschiede
-# Webots verwendet ein Y-up-System, während UR-Roboter typischerweise Z-up-Konfigurationen nutzen.
-#  Dies führt zu unterschiedlichen Rotationsmatrizen in der Vorwärtskinematik
-"""def convert_pose(webots_pose):
-    # Webots (Y-up) zu UR (Z-up)
-    x, y, z = webots_pose[0], webots_pose[2], webots_pose[1]
-    return [x, y, z]"""
 
 
 def set_gripper(position):
@@ -259,6 +253,17 @@ while robot.step(timestep) != -1:
         # Vorwärtskinematik berechnen
         T = ur3e.fkine(current_joint_angles)  # fkine-Methode ergibt ein SE3-Objekt
         print(f"TCP-Position (x, y, z): {T.t[0]:.2f}, {T.t[1]:.2f}, {T.t[2]:.2f}")    #, end=" "
+        # TESTED 27.05.25: Ausgabe Entspricht der EXCEL-Tabelle von UR
+        #
+        # Leider ist der Robotiq_Gripper in Webots an einer anderen Position
+        # Bsp: Ausgabe hier
+        # aktuelle Gelenkwinkel: 0.00, -0.00, 3.75, 0.00, -0.00, -0.00 TCP-Position (x, y, z): -0.12, -0.37, 0.34
+        # Robotiq Pos realtiv zu UR3e                                                          -0.138 0.163  0.623
+        # Robotiq Pos absolut                                                                  -0.163 -0.138  1.563
+
+
+
+        # Wichtig? 
         # Webots verwendet ein Y-up-System, während UR-Roboter typischerweise Z-up-Konfigurationen nutzen.
         #  Dies führt zu unterschiedlichen Rotationsmatrizen in der Vorwärtskinematik    
         # print(f" real (x, y, z): {T.t[0]:.2f}, {T.t[2]:.2f}, {T.t[1]:.2f}")
