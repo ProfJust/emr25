@@ -16,8 +16,8 @@ cam = cv.VideoCapture(0)
 # => ggf. mehrere Bilder holen und die ersten verwerfen
 
 # lese ein Bild von der WebCam
-# ret, image = cam.read()
-# ret, image = cam.read()
+ret, image = cam.read()
+ret, image = cam.read()
 ret, image = cam.read()
 
 # zeige das Bild an

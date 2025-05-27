@@ -12,7 +12,7 @@ args = vars(ap.parse_args())
 
 # Farbbereich für den Ball (anpassen!)
 greenLower = (0, 0, 51)
-greenUpper = (255, 255, 255)
+greenUpper = (255, 255, 120)
 
 # Bild laden und verarbeiten
 image = cv2.imread(args["image"])
