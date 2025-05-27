@@ -169,7 +169,7 @@ PROTO UR3e [
             }
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 0 1 0
+                axis 0 -1 0
                 anchor 0 0.12 0
               }
               device [
@@ -286,7 +286,7 @@ PROTO UR3e [
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      axis 0 1 0
+                      axis 0 -1 0
                       anchor 0 -0.093 0.244
                     }
                     device [
@@ -368,7 +368,7 @@ PROTO UR3e [
                         }
                         HingeJoint {
                           jointParameters HingeJointParameters {
-                            axis 0 1 0
+                            axis 0 -1 0
                             anchor 0 0 0.213
                           }
                           device [
@@ -485,7 +485,7 @@ PROTO UR3e [
                                     }
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        axis 0 1 0
+                                        axis 0 -1 0
                                         anchor 0 0 0.085
                                       }
                                       device [

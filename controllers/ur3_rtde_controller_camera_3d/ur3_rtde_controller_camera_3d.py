@@ -19,11 +19,12 @@ import time
 SERVER_HOST = "0.0.0.0"
 SERVER_PORT = 30010
 
-# UR3e Home-Position
+# UR3e Home-Position 
 HOME_POSITION = [
-    1.77, -1.00, 1.76, -1.56, 2.33, 1.64
+  # Neutrale Pose
+  0.0, 0.0, 0.0, 0.0, 0.0, 0.0  
 ]
-
+# 1.77, -1.00, 1.76, -1.56, 2.33, 1.64
 # Gripper-Konfiguration (Anpassen an Ihre Webots-Welt!)
 GRIPPER_OPEN_POS = 0.04  # Maximal geöffnet (in Rad)
 GRIPPER_CLOSE_POS = 0.0  # Geschlossen
@@ -52,12 +53,12 @@ import numpy as np
 
 # DH-Parameter für UR3e (a, d, alpha, theta)
 dh_params = [
-    [0, 0.1519, np.pi/2, 0],    # Gelenk 1
-    [0.2435, 0, 0, 0],          # Gelenk 2
-    [0.213, 0, 0, 0],           # Gelenk 3
-    [0, 0.11235, np.pi/2, 0],   # Gelenk 4
-    [0, 0.08535, -np.pi/2, 0],  # Gelenk 5
-    [0, 0.0921, 0, 0]           # Gelenk 6
+    [0.00000, 0.15190, np.pi/2, 0],    # Gelenk 1
+    [-0.2435, 0.00000, 0.00000, 0],         # Gelenk 2
+    [-0.2130, 0.00000, 0.00000, 0],           # Gelenk 3
+    [0.00000, 0.11235, np.pi/2, 0],   # Gelenk 4
+    [0.00000, 0.08535, -np.pi/2, 0],  # Gelenk 5
+    [0.00000, 0.08190, 0.00000, 0]           # Gelenk 6
 ]
 
 # Roboter mit DH-Parametern erstellen
@@ -240,6 +241,7 @@ while robot.step(timestep) != -1:
                                    
         #####  TCP ##################           
         # Vorwärtskinematik berechnen
+        # current_joint_angles[1]= -current_joint_angles[1]
         T = ur3e.fkine(current_joint_angles)
         # print("TCP-Pose (SE3-Objekt):\n", T)
         print("TCP-Position (x, y, z):", T.t)
