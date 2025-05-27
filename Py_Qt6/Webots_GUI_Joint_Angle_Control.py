@@ -6,6 +6,7 @@ import json
 import socket
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QTimer
+import math as m
 
 class RobotControlGUI(QWidget):
     def __init__(self):
@@ -16,22 +17,22 @@ class RobotControlGUI(QWidget):
         self.connect_to_robot()
 
     def initUI(self):
-        self.setWindowTitle('UR3e Joint Control')
+        self.setWindowTitle('W-HS - Embedded Robotics - UR3e Joint Control')
         layout = QVBoxLayout()
 
         self.joint_sliders = []
         self.value_labels = []
         joint_ranges = [
             (-3.14, 3.14),
-            (-3.94, 0.0),
-            (-3.14, 3.14),
+            (-3.14159, 3.14159),
+            (-6.14159, 6.14159),
             (-3.14, 3.14),
             (-3.14, 3.14),
             (-3.14, 3.14)
         ]
 
         for i, (min_val, max_val) in enumerate(joint_ranges):
-            group = QGroupBox(f'Gelenk {i+1} ({["Pan", "Lift", "Elbow", "Wrist 1", "Wrist 2", "Wrist 3"][i]})')
+            group = QGroupBox(f'Gelenk {i+1} ({["Basis", "Schulter", "Ellbogen", "Wrist 1", "Wrist 2", "Wrist 3"][i]})')
             vbox = QVBoxLayout()
 
             lbl = QLabel('0.00 rad')
@@ -80,7 +81,7 @@ class RobotControlGUI(QWidget):
         layout.addLayout(speed_layout)
 
         self.setLayout(layout)
-        self.setMinimumSize(500, 700)
+        self.setMinimumSize(1000, 700)
 
     def connect_to_robot(self):
         try:
@@ -129,7 +130,8 @@ class RobotControlGUI(QWidget):
             slider.blockSignals(True)
         for i, angle in enumerate(self.current_angles):
             self.joint_sliders[i].setValue(int(angle * 100))
-            self.value_labels[i].setText(f"{angle:.2f} rad")
+            self.value_labels[i].setText(f"{angle:.2f} rad   {angle/m.pi*180.0:.2f} deg")
+            # print(f" real (x, y, z): {T.t[0]:.2f}, {T.t[2]:.2f}, {T.t[1]:.2f}")
         for slider in self.joint_sliders:
             slider.blockSignals(False)
 

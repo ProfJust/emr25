@@ -287,14 +287,14 @@ PROTO UR3e [
                   HingeJoint {
                     jointParameters HingeJointParameters {
                       axis 0 1 0
-                      anchor 0 -0.093 0.244  # d-Wert
+                      anchor 0 -0.093 0.244
                     }
                     device [
                       RotationalMotor {
                         name "elbow_joint"
                         maxVelocity 3.14
-                        minPosition -6.14159265359
-                        maxPosition 6.14159265359
+                        minPosition -3.14159265359
+                        maxPosition 3.14159265359
                         maxTorque 150
                       }
                       PositionSensor {
@@ -302,7 +302,7 @@ PROTO UR3e [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 -0.093 0.244 # d-Wert
+                      translation 0 -0.093 0.244
                       children [
                         Shape {
                           appearance USE SCREW_APPEARANCE

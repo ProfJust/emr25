@@ -1,18 +1,24 @@
 # Test vorwärts Kinematic mit DH
-# sollte ergeben [-0.4565, 0, 0.6655]
-###### FUNKTIONIERT NICHT wie es soll
+#-----------------------------------------------
+# Variante mit eigener numpy- Funktion
+#
+# sollte für die neutrale Pose ergeben
+#  [-0.45690, -0.19425, 0.06655] laut UR-Excel-Sheet
+# OK, tut es auch!! 
+# Tested as OK!
+# OJ 27.05.2025
 
 #### TCP ermitteln ##############################################################
 import numpy as np
 
 # DH-Parameter für UR3e (in Metern und Radians)
 dh_params = [
-    {'a': 0,      'd': 0.1519, 'alpha': np.pi/2},
-    {'a': 0.2435, 'd': 0,      'alpha': 0},
-    {'a': 0.213,  'd': 0,      'alpha': 0},
-    {'a': 0,      'd': 0.11235, 'alpha': np.pi/2},
-    {'a': 0,      'd': 0.08535, 'alpha': -np.pi/2},
-    {'a': 0,      'd': 0.0921, 'alpha': 0}
+    {'a': 0,       'd': 0.1519,  'alpha': np.pi/2},
+    {'a': -0.2437, 'd': 0,       'alpha': 0},
+    {'a': -0.2133, 'd': 0,       'alpha': 0},
+    {'a': 0,       'd': 0.11235, 'alpha': np.pi/2},
+    {'a': 0,       'd': 0.08535, 'alpha': -np.pi/2},
+    {'a': 0,       'd': 0.0819,  'alpha': 0}
 ]
 
 def compute_forward_kinematics(joint_angles):
@@ -31,28 +37,10 @@ def compute_forward_kinematics(joint_angles):
             [0,              0,                            0,                           1               ]
         ])
         T = np.dot(T, Ti) # Matrixmultiplikation
-    
-    # Korrekturmatrix **nach** den DH-Transformationen
-    R_correct = np.array([
-        [0, 1, 0, 0],    # X_Webots = Y_DH
-        [-1, 0, 0, 0],   # Y_Webots = -X_DH
-        [0, 0, 1, 0],    # Z bleibt gleich
-        [0, 0, 0, 1]
-    ])
-    #T = np.dot(T, R_correct)
-
-    # Nach der Koordinatensystem-Korrektur:
-    T_offset = np.array([
-        [1, 0, 0, 0],
-        [0, 1, 0, 0],
-        [0, 0, 1, -0.174],  # 174 mm in Z-Richtung
-        [0, 0, 0, 1]
-    ])  
-    #T = np.dot(T, T_offset)
-    
     return T
-# sollte ergeben [-0.4565, 0, 0.6655]
-#ergibt TCP-Position: [-0.4569  -0.02025  0.06655]
+
+# sollte ergeben [-0.457   -0.19425  0.06655]
+#ergibt TCP-Position: [-0.457   -0.19425  0.06655]
 #### TCP ermitteln ##############################################################
 
 current_joint_angles = [0, 0, 0, 0, 0, 0] # => sollte ergeben [-0.4565, 0, 0.6655]
