@@ -287,14 +287,14 @@ PROTO UR3e [
                   HingeJoint {
                     jointParameters HingeJointParameters {
                       axis 0 1 0
-                      anchor 0 -0.093 0.244
+                      anchor 0 -0.093 0.244  # d-Wert
                     }
                     device [
                       RotationalMotor {
                         name "elbow_joint"
                         maxVelocity 3.14
-                        minPosition -3.14159265359
-                        maxPosition 3.14159265359
+                        minPosition -6.14159265359
+                        maxPosition 6.14159265359
                         maxTorque 150
                       }
                       PositionSensor {
@@ -302,7 +302,7 @@ PROTO UR3e [
                       }
                     ]
                     endPoint Solid {
-                      translation 0 -0.093 0.244
+                      translation 0 -0.093 0.244 # d-Wert
                       children [
                         Shape {
                           appearance USE SCREW_APPEARANCE
@@ -369,7 +369,7 @@ PROTO UR3e [
                         HingeJoint {
                           jointParameters HingeJointParameters {
                             axis 0 1 0
-                            anchor 0 0 0.213
+                            anchor 0 0 0.213   # 0.13105 => Bruchstelle
                           }
                           device [
                             RotationalMotor {
@@ -384,7 +384,7 @@ PROTO UR3e [
                             }
                           ]
                           endPoint Solid {
-                            translation 0 0 0.213
+                            translation 0 0 0.213   # 0.13105 => Bruchstelle
                             rotation 0 1 0 1.570796
                             children [
                               Shape {
@@ -486,7 +486,7 @@ PROTO UR3e [
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
                                         axis 0 1 0
-                                        anchor 0 0 0.085
+                                        anchor 0 0 0.0921  # was 0.085
                                       }
                                       device [
                                         RotationalMotor {
@@ -501,15 +501,15 @@ PROTO UR3e [
                                         }
                                       ]
                                       endPoint Solid {
-                                        translation 0 0 0.085
+                                        translation 0 0 0.0921  # was 0.085
                                         children [
                                           Shape {
                                             appearance USE METAL_APPEARANCE
                                             geometry Mesh {
                                               url "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/universal_robots/protos/UR3e/meshes/wrist_3_link_0.obj"
                                             }
-                                          }
-                                          Pose {
+                                          } 
+                                          DEF TOOL_SLOT Pose {   # Name einfügen
                                             translation 0 0.09 0
                                             children IS toolSlot
                                           }

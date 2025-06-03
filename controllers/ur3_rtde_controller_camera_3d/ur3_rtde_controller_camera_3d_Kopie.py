@@ -43,9 +43,7 @@ GRIPPER_SPEED = 1.0      # Rad/s
 
 # Initialisiere Webots-Roboter
 robot = Supervisor() # was Robot() 
-
-#https://github.com/cyberbotics/webots/blob/released/projects/samples/devices/controllers/gps_supervisor/gps_supervisor.py
-#tool_slot = robot.getFromDef("TOOL_SLOT").getField('translation')  #getFromDef('GPS_ROBOT').getField('translation')
+tool_slot = robot.getFromDef("TOOL_SLOT")  
 
 timestep = int(robot.getBasicTimeStep())
 
@@ -61,16 +59,9 @@ print("cam", camera)
 range_finder = robot.getDevice("my_range_finder")
 range_finder.enable(timestep)
 
-###### ADD GPS @ TCP ########
-gps = robot.getDevice("tool_slot_gps")
-gps.enable(timestep)
-
 #### TCP ermitteln ##############################################################
 import roboticstoolbox as rtb
 import numpy as np
-
-
-
 
 # DH-Parameter für realen UR3e (a, d, alpha, theta)
 dh_params = [
@@ -269,7 +260,7 @@ while robot.step(timestep) != -1:
             for name in joint_names
         ]
         #formatierte Ausgabe
-        print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:+.2f}, {current_joint_angles[1]:+.2f}, {current_joint_angles[2]:+.2f}, {current_joint_angles[3]:+.2f}, {current_joint_angles[4]:+.2f}, {current_joint_angles[5]:+.2f}",     end=" ")
+        print(f"aktuelle Gelenkwinkel: {current_joint_angles[0]:.2f}, {current_joint_angles[1]:.2f}, {current_joint_angles[2]:.2f}, {current_joint_angles[3]:.2f}, {current_joint_angles[4]:.2f}, {current_joint_angles[5]:.2f}",     end=" ")
         
         """ NO WORX  
         if tool_slot:
@@ -280,11 +271,22 @@ while robot.step(timestep) != -1:
         #####  TCP ##################           
         # Vorwärtskinematik berechnen
         T = ur3e.fkine(current_joint_angles)  # fkine-Methode ergibt ein SE3-Objekt
-        print(f" TCP-Position (x, y, z): {T.t[0]:+.2f}, {T.t[1]:+.2f}, {T.t[2]:+.2f}", end=" ")    #, end=" "
-        
-        ###### GPS ###########
-        gps_position = gps.getValues()
-        print(f"  GPS {gps_position[0]:.2f}, {gps_position[1]:.2f}, {gps_position[2]:.2f}")
+        print(f"TCP-Position (x, y, z): {T.t[0]:.2f}, {T.t[1]:.2f}, {T.t[2]:.2f}")    #, end=" "
+        # TESTED 27.05.25: Ausgabe Entspricht der EXCEL-Tabelle von UR
+        #
+        # Leider ist der Robotiq_Gripper in Webots an einer anderen Position
+        # Bsp: Ausgabe hier
+        # aktuelle Gelenkwinkel: 0.00, -0.00, 3.75, 0.00, -0.00, -0.00 TCP-Position (x, y, z): -0.12, -0.37, 0.34
+        # Robotiq Pos realtiv zu UR3e                                                          -0.138 0.163  0.623
+        # Robotiq Pos absolut                                                                  -0.163 -0.138  1.563
+
+
+
+        # Wichtig? 
+        # Webots verwendet ein Y-up-System, während UR-Roboter typischerweise Z-up-Konfigurationen nutzen.
+        #  Dies führt zu unterschiedlichen Rotationsmatrizen in der Vorwärtskinematik    
+        # print(f" real (x, y, z): {T.t[0]:.2f}, {T.t[2]:.2f}, {T.t[1]:.2f}")
+
         # Roboterbewegung steuern
         for name, angle in zip(joint_names, target_joint_angles):
             if name in motors:

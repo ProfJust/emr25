@@ -28,8 +28,10 @@ def transform_point(matrix, point):
 # Beispielpunkte und Transformation
 points = np.array([[0,0], [1,0], [1,1], [0,1]])
 
-# erstelle homogene Transformationsmatrix, für Verschiebung um 2 entlang der X-Achse
-transformM = create_homogeneous_2d(0, 2, 0) 
+# erstelle homogene Transformationsmatrix ,
+# ====>>>  für Verschiebung um 2 entlang der X-Achse
+#                            (angle in deg, tx, ty)
+transformM = create_homogeneous_2d(90, 2, 1) 
 print("Transformationsmatrix: \n",transformM)
 
 # Transformiere die Punkte

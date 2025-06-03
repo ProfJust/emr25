@@ -9,7 +9,10 @@
 import cv2 as cv
 
 # initialisiere WebCam
-cam = cv.VideoCapture(0)
+CAMERA_INDEX = 0
+cam = cv.VideoCapture(CAMERA_INDEX, cv.CAP_DSHOW) 
+# cv.CAP_DSHOW => dauert nicht so lange bis Bild von USB-Kamera kommt
+
 
 # WebCam braucht einen Moment zum Starten
 # und zum Einstellen des Autofokus
@@ -18,6 +21,8 @@ cam = cv.VideoCapture(0)
 # lese ein Bild von der WebCam
 ret, image = cam.read()
 ret, image = cam.read()
+
+
 ret, image = cam.read()
 
 # zeige das Bild an
