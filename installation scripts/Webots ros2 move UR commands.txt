@@ -1,0 +1,45 @@
+###  UR5e Action erzeugen ##########
+# ur5e bewegt sich an 3 Positionen
+ros2 action send_goal /ur5e/ur_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory 
+"{
+  trajectory: {
+    joint_names: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint],
+    points: [
+      { positions: [3.02, -1.63, -1.88, 1.01, 1.51, 1.13], time_from_start: { sec: 5, nanosec: 500 } },
+      { positions: [-1.01, 0.38, -0.63, -0.88, 0.25, -1.63], time_from_start: { sec: 6, nanosec: 500 } },
+      { positions: [-1.01, 0.38, -0.63, -0.88, 0.25, 6.2], time_from_start: { sec: 50, nanosec: 500 } }
+    ]
+  },
+  goal_tolerance: [
+    { name: shoulder_pan_joint, position: 0.01 },
+    { name: shoulder_lift_joint, position: 0.01 },
+    { name: elbow_joint, position: 0.01 },
+    { name: wrist_1_joint, position: 0.01 },
+    { name: wrist_2_joint, position: 0.01 },
+    { name: wrist_3_joint, position: 0.01 }
+  ]
+}"
+
+###  UR5e Action erzeugen ##########
+#### 3F-Finger-Gripper bewegen
+# yeah, funkt !!!!
+# macht Finger zu und wieder auf !!!!
+ros2 action send_goal /ur5e/ur_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{
+  trajectory: {
+    joint_names: [
+      finger_1_joint_1,
+      finger_2_joint_1,
+      finger_middle_joint_1
+    ],
+    points: [
+      { positions: [0.99, 0.99, 0.99], time_from_start: { sec: 5, nanosec: 500 } },
+      { positions: [0.01, 0.01, 0.01], time_from_start: { sec: 10, nanosec: 500 } }
+    ]
+  },
+  goal_tolerance: [
+    { name: palm_finger_1_joint, position: 0.01 },
+    { name: finger_1_joint_1, position: 0.01 },
+    { name: finger_2_joint_1, position: 0.01 },
+    { name: finger_middle_joint_1, position: 0.01 }
+  ]
+}"

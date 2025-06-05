@@ -1,0 +1,135 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "../protos/UR3e.proto"
+EXTERNPROTO "../protos/WoodenBox.proto"
+EXTERNPROTO "../protos/Robotiq2f85Gripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/festo/robotino3/protos/Robotino3Webcam.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Cardboard.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.12378075923811432 -0.8786927759958583 0.46106109037211995 5.690158450846262
+  position -5.055288863240033 1.0024940475996194 3.063011334809007
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Table {
+  translation 0 0 0.04
+}
+UR3e {
+  hidden position_0_0 -2.1094237467877974e-15
+  hidden rotation_1 0 0 1 0.5000239104882005
+  hidden position_1_0 -4.122378355554021e-06
+  hidden linearVelocity_1 -7.721799768511128e-14 1.544164864784852e-13 -9.473883094333606e-14
+  hidden angularVelocity_1 -4.655206861493834e-14 -7.109394559221257e-14 -3.681468106177684e-14
+  hidden rotation_2 0 1 0 0.07064621951392717
+  hidden position_2_0 2.9762405420360842
+  hidden linearVelocity_2 -1.6373301356482123e-13 3.261270255836467e-13 -1.9703896605898956e-13
+  hidden angularVelocity_2 -1.284134378990885e-13 -1.0501197170302413e-13 -6.546974866516251e-14
+  hidden rotation_3 0 -1 0 0.6838293508144418
+  hidden position_3_0 -8.94441037239263e-07
+  hidden linearVelocity_3 -2.758064750219126e-13 5.114548375034351e-13 -2.7930882146965906e-13
+  hidden angularVelocity_3 -1.5136439342099935e-13 -1.5385730661483034e-13 -9.553648313148693e-14
+  hidden rotation_4 0 1 0 5.2107260905150445
+  hidden position_4_0 8.171567884050173e-07
+  hidden linearVelocity_4 -3.7073407535853645e-13 6.846381761539494e-13 -3.802495280965226e-13
+  hidden angularVelocity_4 -1.3418208614084116e-13 -1.1884868101486668e-13 -1.137441011299941e-13
+  hidden rotation_5 0 0 1 0.5000004661255214
+  hidden position_5_0 5.8095534701875525e-08
+  hidden linearVelocity_5 -4.401372195386113e-13 8.45199865130756e-13 -5.009006395330226e-13
+  hidden angularVelocity_5 -1.897068876970966e-13 -1.2723267498475056e-13 -1.279833167574389e-13
+  hidden translation_6 6.395896205253955e-05 3.0249325994838205e-05 0.086114091145184
+  hidden rotation_6 1.9788587352835436e-06 -0.9999999999639657 8.255472414838422e-06 3.2797432855539888
+  hidden linearVelocity_6 -5.136210278207466e-13 1.005197371003792e-12 -6.133967948957264e-13
+  hidden angularVelocity_6 -1.757869004554989e-13 -1.4092446697097156e-13 -1.2292248878719811e-13
+  hidden position_7_0 0.01000015970629462
+  hidden position_7_1 0.04929510537477764
+  hidden position_7_2 0.009999920326638878
+  hidden position_7_3 0.014386599473898892
+  hidden rotation_8 8.66035776146928e-10 0.005000059018841625 0.9999874996267745 3.1415929999956695
+  hidden linearVelocity_8 4.977708298919898e-10 -1.5608827428047766e-09 8.141499507557186e-10
+  hidden angularVelocity_8 4.206288478642905e-08 -2.9326755517443404e-08 -8.194095659455105e-08
+  hidden position_9_0 -0.06823776018001426
+  hidden rotation_10 -1 0 0 0.06823776018001433
+  hidden linearVelocity_10 4.912834967387302e-09 -4.3582928112792826e-10 2.6778811901824227e-09
+  hidden angularVelocity_10 6.00027764547302e-09 -4.183659194293122e-09 -1.1689243579726694e-08
+  hidden rotation_12 4.268649519234814e-09 0.024645057190868208 0.9996962644503875 3.1415929998947827
+  hidden position_12_0 -0.107532766968298
+  hidden linearVelocity_12 -4.993649794177243e-13 9.654503277210127e-13 -6.169890888544892e-13
+  hidden angularVelocity_12 4.141483337421928e-08 -2.8874927833561095e-08 -8.067851260870066e-08
+  hidden rotation_13 1 0 0 0.009999920326638777
+  hidden linearVelocity_13 1.2493178738008995e-09 -1.9462810493530057e-09 1.3378806456671059e-09
+  hidden angularVelocity_13 -6.141613778035073e-08 4.281941529545327e-08 1.1964103575508887e-07
+  hidden position_14_0 0.013183478529508068
+  hidden rotation_15 1 0 0 0.013183478529493338
+  hidden linearVelocity_15 -3.196736435038827e-09 -7.3732420074295215e-09 9.978588028882845e-10
+  hidden angularVelocity_15 -3.3346195631429405e-09 2.3246463144843568e-09 6.495531674561631e-09
+  hidden rotation_17 1 0 0 0.014386599473897565
+  hidden position_17_0 0.008796717853031742
+  hidden linearVelocity_17 -4.839447003537843e-13 9.863158928294066e-13 -6.148539732917899e-13
+  hidden angularVelocity_17 -6.104586164908479e-08 4.2561260195001586e-08 1.1891972506536063e-07
+  translation 0 0 1
+  controller "ur3_rtde_controller_camera_3d"
+  supervisor TRUE
+  toolSlot [
+    Robotiq2f85Gripper {
+      rotation 1 0 0 -1.5708
+    }
+  ]
+  camSlot [
+    RangeFinder {
+      translation -0.0200017 0.18 0.96
+      rotation 0 1 0 1.5708
+      name "my_range_finder"
+      fieldOfView 0.9
+      width 320
+      height 240
+      near 0.1
+      minRange 0.1
+      maxRange 1.2
+    }
+    Robotino3Webcam {
+      translation -3.2318999999921924e-05 0.20524499999999946 0.937088942807486
+      rotation -7.437317691477912e-06 0.7070757804970854 0.7071377804778386 -3.1415853071795765
+      name "cam1"
+    }
+  ]
+}
+WoodenBox {
+  translation -3.865353822303724e-16 3.823746462523098e-07 0.8760115549605091
+  rotation 0.0011766447571911803 -1.4369654588053755e-05 0.9999993076500746 0.024423601155431254
+  size 0.15 0.15 0.3
+  mass 5
+}
+Floor {
+}
+Solid {
+  translation 9.357593948787621e-17 0.307579000115669 0.8299607599929449
+  rotation 0.8560275324221019 -0.013748907141999873 0.5167473573108311 7.884130877051801e-16
+  children [
+    Shape {
+      appearance Cardboard {
+        colorOverride 0.3 0.9 0.2
+      }
+      geometry Box {
+        size 0.05 0.05 0.1
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.05 0.05 0.1
+  }
+  physics Physics {
+    density -1
+    mass 0.1
+  }
+  linearVelocity -6.862526241857475e-17 1.765300669332498e-16 5.513157930130721e-11
+  angularVelocity -3.7303493628604196e-15 -1.332267629550187e-15 4.2950970617239727e-17
+}

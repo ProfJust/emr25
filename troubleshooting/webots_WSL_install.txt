@@ -18,4 +18,11 @@ sudo apt install -f
     - Main 3D view global ambient occlusion has been de-activated.
     - Texture quality has been reduced.
 
-    You can try to re-activate some OpenGL featur
+    You can try to re-activate some OpenGL feature
+
+
+Prüfe Grafiktreiber:
+
+$ glxinfo | grep "OpenGL vendor"    => sollte nicht Microsoft anzeigen
+
+$ sudo apt-get install nvidia-driver-570   => Neustart des PC
