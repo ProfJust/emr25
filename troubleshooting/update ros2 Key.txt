@@ -1,0 +1,28 @@
+sudo apt-key del F42ED6FBAB17C654 
+
+sudo mkdir -p /etc/apt/keyrings
+
+curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo tee /etc/apt/keyrings/ros-archive-keyring.gpg > /dev/null
+
+sudo nano /etc/apt/sources.list.d/ros2.list
+
+  Ersetze erste Zeile durch 
+
+  deb [signed-by=/etc/apt/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main
+
+
+Fetched 17.6 MB in 2s (9,937 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+151 packages can be upgraded. Run 'apt list --upgradable' to see them.
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://packages.ros.org/ros2/ubuntu jammy InRelease: The following signatures were invalid: EXPKEYSIG F42ED6FBAB17C654 Open Robotics <info@osrfoundation.org>
+W: Failed to fetch http://packages.ros.org/ros2/ubuntu/dists/jammy/InRelease  The following signatures were invalid: EXPKEYSIG F42ED6FBAB17C654 Open Robotics <info@osrfoundation.org>
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+robotik@Zboock:/mnt/c/Users/olafj$ sudo apt-key del F42ED6FBAB17C654
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+OK
+
+robotik@Zboock:/mnt/c/Users/olafj$ sudo mkdir -p /etc/apt/keyrings/
+
+curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo tee /etc/apt/keyrings/ros-archive-keyring.gpg > /dev/null

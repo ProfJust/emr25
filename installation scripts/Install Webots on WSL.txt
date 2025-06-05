@@ -1,0 +1,55 @@
+ 98  mkdir -p ur3_ws/src
+   99  cd ur3_ws/src/
+  100  rosdep update
+  101  rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+  102  cd ..
+  103  rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+  104  ls
+  105  cd src/
+  106  ls
+  107  rm -r emr2
+  108  cd ..
+  109  rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+  110  git clone --recurse-submodules https://github.com/cyberbotics/webots_ros2.git
+  111  ls
+  112  rm -r webots_ros2/
+  113  cd src/
+  114  git clone --recurse-submodules https://github.com/cyberbotics/webots_ros2.git
+  115  cd ..
+  116  colcon build --symlink-install
+  117  cd /home/robotik/ur3_ws
+  118  rm -rf build install log
+  119  colcon build --symlink-install
+  120  sudo apt install ros-humble-vision-msgs
+  121  sudo apt-get update
+  122  sudo apt install ros-humble-vision-msgs
+  123  sudo apt-key del F42ED6FBAB17C654
+  124  sudo mkdir -p /etc/apt/keyrings
+  125  curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key   | sudo tee /etc/apt/keyrings/ros-archive-keyring.gpg > /dev/null
+  126  deb [signed-by=/etc/apt/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main
+  127  sudo apt-get update
+  128  nano /etc/apt/sources.list.d/ros2-latest.list
+  129  nano /etc/apt/sources.list.d/ros2.list
+  130  sudo nano /etc/apt/sources.list.d/ros2.list
+  131  sudo apt-get update
+  132  colcon build --symlink-install
+  133  sudo apt install ros-humble-vision-msgs
+  134  colcon build --symlink-install
+  135  source /opt/ros/humble/setup.bash
+  136  source install/setup.bash
+  137  printev |grep WEB
+  138  printenv |grep WEB
+  139  which webots
+  140  ros2 launch webots_ros2_universal_robot multirobot_launch.py
+  141  ros2 launch webots_ros2_universal_robot robot_world_launch.py
+  142  cd ~/Downloads
+  143  mkdir ~/Downloads
+  144  cd ~/Downloads
+  145  wget https://github.com/cyberbotics/webots/releases/download/R2025a/webots_2025a_amd64.deb
+  146  sudo dpkg -i webots_2025a_amd64.deb
+  147  sudo apt install -f
+  148  sudo dpkg -i webots_2025a_amd64.deb
+  149  webots
+  150  ros2 launch webots_ros2_universal_robot robot_nodes_launch.py
+  151  history
+robotik@OMEN4:~/Downloads$
