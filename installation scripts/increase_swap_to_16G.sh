@@ -2,7 +2,7 @@
 free -h
 df -h
 sudo swapoff /swapfile     # alten Swap ausschalten
-sudo fallocate -l 16G /swapfile
+sudo fallocate -l 8G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
