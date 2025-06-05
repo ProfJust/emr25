@@ -1,7 +1,6 @@
 ###  UR5e Action erzeugen ##########
 # ur5e bewegt sich an 3 Positionen
-ros2 action send_goal /ur5e/ur_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory 
-"{
+ros2 action send_goal /ur5e/ur_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{
   trajectory: {
     joint_names: [shoulder_pan_joint, shoulder_lift_joint, elbow_joint, wrist_1_joint, wrist_2_joint, wrist_3_joint],
     points: [
