@@ -148,8 +148,7 @@ def inverse_kinematics(cartesian_pose):
     
     # --- Zielpose definieren ---
     T_goal = SE3.Trans(_x,_y,_z) * SE3.RPY(rx, ry, rz, order='xyz')
-   
- 
+  
     
     """
     end   = ur3e.ee_links[0] # tool_0
@@ -165,17 +164,7 @@ def inverse_kinematics(cartesian_pose):
         T_goal,         
         q0=q0,
     )
-    """ 
-    # Alternative Lösungsmethoden testen  !!!Nicht bei DHRobot vorhanden !!!
-        sol = ur3e.ikine_LM(              #Levenberg Marquard
-        sol_min = ur3e.ikine_min(T_goal)  # Minimale Bewegung 
-        sol_jt = ur3e.ikine_J(T_goal)     # Jacobi-Transpose-Methode
-
-        Diese sind vorhanden
-        ikine_LM
-        ik_GN, ik_gn .....
-    """
-    
+       
     if sol.success:
         print(f"IK Lösung Gelenkwinkel: {sol.q}")  
         return sol.q      
