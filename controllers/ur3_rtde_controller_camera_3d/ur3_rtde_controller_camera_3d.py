@@ -140,24 +140,20 @@ def inverse_kinematics(cartesian_pose):
         return None
     x, y, z, rx, ry, rz = cartesian_pose   # roll rx, pitch ry, yaw rz
     print("Cartesian Pose", cartesian_pose)
+
+    #!!!!!!!!!!!!!!!!!!!!!!
     # Zielpose definieren (Beispiel)
-    T_goal = SE3.Trans(x, y, z) * SE3.Rx(180, 'deg') # Für allgemeine Fälle mit Gelenkbeschränkungen
+    T_goal = SE3.Trans(-0.45690, -0.19425, 0.06655) * SE3.Rx(180, 'deg')
+   
+    #  Schnelle IK mit Levenberg-Marquad
+    sol = ur3e.ikine_LM(T_goal)
+    if sol.success:
+        print(f"Gelenkwinkel mit IK: {sol.q}")
+    else:
+        print("Keine IK Lösung gefunden")
     
-    # Position (x,y,z) und Orientierung (rx,ry,rz)
-    T_goal = SE3(x, y, z) * SE3.RPY(rx, ry, rz, order='xyz') # IK mit Constraints berechnen
-    # Variante 1: allgemeine Fälle mit Gelenkbeschränkungen
-    sol = ur3e.ikine_min(T_goal, qlim=True)
-    if sol.success:
-        print(f"Gelenkwinkel mit IK: {sol.q}")
-    else:
-        print("Keine IK Lösung gefunden")  
-        
-    # Variante 2: Schnelle IK mit Levenberg-Marquad
-    sol = ur3e.ikine_LM(T_goal, ilimit=100, tol=1e-6)
-    if sol.success:
-        print(f"Gelenkwinkel mit IK: {sol.q}")
-    else:
-        print("Keine IK Lösung gefunden")  
+    return sol.q
+
 #---------- HIER DIE IK UMSETZEN ----!!!
 
 
@@ -197,20 +193,23 @@ def handle_client(conn, addr):
                         response = {"error": "Ungültige Gelenkwinkel"}
 
                 elif command == "moveL":
+                    ##!!!! Dieser Print erfolgt auf der  Webots Konsole !!!
+                    print("MoveL")
                     # hier den IK-Aufruf einfügen
                     payload = request.get("data", {})
                     pose = payload.get("pose", [])
                     speed = payload.get("speed", 0.5)
+                    print("len", len)
                     if len(pose) == 6:
                         print(" Target Pose IK ", pose)
                         q = inverse_kinematics(pose)  # ==>>> IK 
-                        if q:
+                        """====>>>if q:
                             target_joint_angles[:] = q
                             for name in joint_names:
                                 motors[name].setVelocity(speed)
                             response = {"info": "Target Q akzeptiert", "target_q": q, "speed": speed}
                         else:
-                            response = {"error": "IK fehlgeschlagen"}
+                            response = {"error": "IK fehlgeschlagen"}"""
                     else:
                         response = {"error": "Ungültige Pose"}
 
@@ -289,13 +288,13 @@ while robot.step(timestep) != -1:
             for name in joint_names
         ]
         #formatierte Ausgabe
-        print(f"aktuelle Gelenkwinkel: {tstep}, {current_joint_angles[0]:+.2f}, {current_joint_angles[1]:+.2f}, {current_joint_angles[2]:+.2f}, {current_joint_angles[3]:+.2f}, {current_joint_angles[4]:+.2f}, {current_joint_angles[5]:+.2f}",     end=" ")
+        #print(f"aktuelle Gelenkwinkel: {tstep}, {current_joint_angles[0]:+.2f}, {current_joint_angles[1]:+.2f}, {current_joint_angles[2]:+.2f}, {current_joint_angles[3]:+.2f}, {current_joint_angles[4]:+.2f}, {current_joint_angles[5]:+.2f}",     end=" ")
         tstep = tstep +1
        
         #####  TCP ##################           
         # Vorwärtskinematik berechnen
         T = ur3e.fkine(current_joint_angles)  # fkine-Methode ergibt ein SE3-Objekt
-        print(f" TCP-Position (x, y, z): {T.t[0]:+.2f}, {T.t[1]:+.2f}, {T.t[2]:+.2f}") # , end=" ")
+        #print(f" TCP-Position (x, y, z): {T.t[0]:+.2f}, {T.t[1]:+.2f}, {T.t[2]:+.2f}") # , end=" ")
         # print(T) => 4x4 Matrix
        
         # Roboterbewegung steuern

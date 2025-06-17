@@ -32,8 +32,8 @@ gripper.set_speed(100)
 # Liste von Positionen (Gelenkwinkel)
 # [x, y, z, roll, pitch, yaw] in rad???
 waypoints_xyz = [
-    [-0.02, -0.37, 0.4, 0.0, 0.0, 0.0],   
-    [-0.45690, -0.19425, 0.06655, 0, 0, 0],     
+    [-0.45690, -0.19425, 0.06655, 0.0, 0.0, 0.0],   
+    [-0.45690, -0.19425, 0.06655, 3.1, 3.1, 3.1],     
 ]
 # Bewegungen mit MoveJ ausführen
 input("Roboter startet Bewegung (MoveL) nach Eingabe beliebiger Taste")
@@ -41,6 +41,7 @@ for i, ziel_pose in enumerate(waypoints_xyz ):
     print(f"➡️  Sende moveL #{i+1}: {ziel_pose}")
     #MoveL 
     resp = rtde_c.moveL(ziel_pose)
+    
     
     print(f"📥 Antwort: {resp}")
     actual_q = rtde_r.getActualQ() # in radian

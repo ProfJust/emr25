@@ -30,8 +30,9 @@ ur3e = rtb.DHRobot([
 
 # Zielpose definieren (Beispiel)
 T_goal = SE3.Trans(-0.45690, -0.19425, 0.06655) * SE3.Rx(180, 'deg')
+print(T_goal)
 
-# IK mit Constraints berechnen
+# Schnelle IK mit Levenberg-Marquad
 sol = ur3e.ikine_LM(T_goal)
 if sol.success:
     print(f"Gelenkwinkel: {sol.q}")
