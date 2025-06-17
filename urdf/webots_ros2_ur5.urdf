@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<robot name="C:/Users/olafj/mySciebo/_EMR25/emr25/urdf/webots_ros2_ur5.urdf" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+  </link>
+  <link name="solid0">
+  </link>
+  <joint name="base_link_solid0_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="solid0"/>
+    <origin xyz="0 0 -0.000184" rpy="-0.000039 -0.000046 -3.141592"/>
+  </joint>
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="solid0"/>
+    <child link="solid1"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150" lower="-6.28319" upper="6.28319" velocity="3.14159"/>
+    <origin xyz="0 0 0.1625" rpy="0 0 -1.01"/>
+  </joint>
+  <link name="solid1">
+  </link>
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="solid1"/>
+    <child link="solid2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150" lower="-6.28319" upper="6.28319" velocity="3.14159"/>
+    <origin xyz="0 0 0" rpy="1.570796 -0.380072 0"/>
+  </joint>
+  <link name="solid2">
+  </link>
+  <joint name="elbow_joint" type="revolute">
+    <parent link="solid2"/>
+    <child link="solid3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="150" lower="-3.14159" upper="3.14159" velocity="3.14159"/>
+    <origin xyz="-0.425 0 0" rpy="0 0 -0.629973"/>
+  </joint>
+  <link name="solid3">
+  </link>
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="solid3"/>
+    <child link="solid4"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="28" lower="-6.28319" upper="6.28319" velocity="3.14159"/>
+    <origin xyz="-0.3922 0 0.1333" rpy="0 0 -0.879996"/>
+  </joint>
+  <link name="solid4">
+  </link>
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="solid4"/>
+    <child link="solid5"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="28" lower="-6.28319" upper="6.28319" velocity="3.14159"/>
+    <origin xyz="0 -0.0997 0" rpy="1.570796 -0.249996 0"/>
+  </joint>
+  <link name="solid5">
+  </link>
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="solid5"/>
+    <child link="solid6"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="28" lower="-6.28319" upper="6.28319" velocity="3.14159"/>
+    <origin xyz="0 0.0996 0" rpy="-1.570796 -0.083185 0"/>
+  </joint>
+  <link name="solid6">
+  </link>
+  <link name="solid7">
+  </link>
+  <joint name="solid6_solid7_joint" type="fixed">
+    <parent link="solid6"/>
+    <child link="solid7"/>
+    <origin xyz="0 0 0.045" rpy="1.5708 0 0"/>
+  </joint>
+  <link name="solid16">
+  </link>
+  <joint name="solid7_solid16_joint" type="fixed">
+    <parent link="solid7"/>
+    <child link="solid16"/>
+    <origin xyz="0.0455 0.0214 0" rpy="0 0 1.57"/>
+  </joint>
+  <joint name="finger_middle_joint_1" type="revolute">
+    <parent link="solid16"/>
+    <child link="solid17"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="0.0495" upper="1.2218" velocity="100"/>
+    <origin xyz="0.02 0 0" rpy="0 0 0.0495"/>
+  </joint>
+  <link name="solid17">
+  </link>
+  <joint name="finger_middle_joint_2" type="revolute">
+    <parent link="solid17"/>
+    <child link="solid18"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="0" upper="1.5708" velocity="100"/>
+    <origin xyz="0.05 -0.028 0" rpy="0 0 -0.52"/>
+  </joint>
+  <link name="solid18">
+  </link>
+  <joint name="finger_middle_joint_3" type="revolute">
+    <parent link="solid18"/>
+    <child link="solid19"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="-1.2217" upper="-0.0523" velocity="100"/>
+    <origin xyz="0.039 0 0" rpy="0 0 -0.637"/>
+  </joint>
+  <link name="solid19">
+  </link>
+  <joint name="palm_finger_2_joint" type="revolute">
+    <parent link="solid7"/>
+    <child link="solid12"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" lower="-0.192" upper="0.1784" velocity="100"/>
+    <origin xyz="-0.0455 0.0214 -0.036" rpy="3.141592 -0.000008 1.571593"/>
+  </joint>
+  <link name="solid12">
+  </link>
+  <joint name="finger_2_joint_1" type="revolute">
+    <parent link="solid12"/>
+    <child link="solid13"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="0.0495" upper="1.2218" velocity="100"/>
+    <origin xyz="0.02 0 0" rpy="0 0 0.0495"/>
+  </joint>
+  <link name="solid13">
+  </link>
+  <joint name="finger_2_joint_2" type="revolute">
+    <parent link="solid13"/>
+    <child link="solid14"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="0" upper="1.5708" velocity="100"/>
+    <origin xyz="0.05 -0.028 0" rpy="0 0 -0.52"/>
+  </joint>
+  <link name="solid14">
+  </link>
+  <joint name="finger_2_joint_3" type="revolute">
+    <parent link="solid14"/>
+    <child link="solid15"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="-1.2217" upper="-0.0523" velocity="100"/>
+    <origin xyz="0.039 0 0" rpy="0 0 -0.637"/>
+  </joint>
+  <link name="solid15">
+  </link>
+  <joint name="palm_finger_1_joint" type="revolute">
+    <parent link="solid7"/>
+    <child link="solid8"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" lower="-0.1784" upper="0.192" velocity="100"/>
+    <origin xyz="-0.0455 0.0214 0.036" rpy="3.141592 -0.000008 1.571593"/>
+  </joint>
+  <link name="solid8">
+  </link>
+  <joint name="finger_1_joint_1" type="revolute">
+    <parent link="solid8"/>
+    <child link="solid9"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="0.0495" upper="1.2218" velocity="100"/>
+    <origin xyz="0.02 0 0" rpy="0 0 0.0495"/>
+  </joint>
+  <link name="solid9">
+  </link>
+  <joint name="finger_1_joint_2" type="revolute">
+    <parent link="solid9"/>
+    <child link="solid10"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="0" upper="1.5708" velocity="100"/>
+    <origin xyz="0.05 -0.028 0" rpy="0 0 -0.52"/>
+  </joint>
+  <link name="solid10">
+  </link>
+  <joint name="finger_1_joint_3" type="revolute">
+    <parent link="solid10"/>
+    <child link="solid11"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="-1.2217" upper="-0.0523" velocity="100"/>
+    <origin xyz="0.039 0 0" rpy="0 0 -0.637"/>
+  </joint>
+  <link name="solid11">
+  </link>
+</robot>
