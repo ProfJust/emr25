@@ -1,15 +1,14 @@
-# Test vorwärts Kinematic mit DH
+# Test inverse Kinematic mit DH
 #-----------------------------------------------
 # Variante mit der Corke - Toolbox
 #
-# sollte für die neutrale Pose ergeben
-#  [-0.45690, -0.19425, 0.06655] laut UR-Excel-Sheet
-# OK, tut es auch!! 
-# Tested as OK!
-# OJ 27.05.2025
+# sollte für [-0.45690, -0.19425, 0.06655]
+# die neutrale Pose ergeben
+#   laut UR-Excel-Sheet
 
 import roboticstoolbox as rtb
 import numpy as np
+from spatialmath import SE3
 
 # DH-Parameter für UR3e (a, d, alpha, theta)
 # https://www.universal-robots.com/articles/ur/application-installation/dh-parameters-for-calculations-of-kinematics-and-dynamics/
@@ -28,22 +27,27 @@ ur3e = rtb.DHRobot([
     rtb.RevoluteDH(d=link[1], a=link[0], alpha=link[2]) for link in dh_params
 ])
 
-# Neutrale Gelenkwinkel (θ1–θ6 = 0)
-#q = np.array([0, 0, 0, 0, 0, 0])
-q = np.array([-2.51132569, -2.67393438, -1.02769824, -1.01075636,  1.57079633,  2.20106329])
 
-# Vorwärtskinematik berechnen
-T = ur3e.fkine(q)
-print("TCP-Pose (SE3-Objekt):\n", T)
-print("TCP-Position (x, y, z):", T.t)
-print("TCP-Orientierung (Rotationsmatrix):\n", T.R)
+# Zielpose definieren (Beispiel)
+T_goal = SE3.Trans(-0.45690, -0.19425, 0.06655) * SE3.Rx(180, 'deg')
 
-"""Erwartetes Ergebnis für neutrale Pose
-text
-TCP-Position (x, y, z): [-0.4565, 0, 0.6655]
-"""
+# IK mit Constraints berechnen
+sol = ur3e.ikine_LM(T_goal)
+if sol.success:
+    print(f"Gelenkwinkel: {sol.q}")
+else:
+    print("Keine Lösung gefunden")
 
-ur3e.plot(q, backend='pyplot')  # 3D-Plot anzeigen
+#Umgang mit Mehrfachlösungen
+for seed in np.linspace(-np.pi, np.pi, 10):
+    sol = ur3e.ikine_LM(T_goal, q0=seed)
+    if sol.success:
+        print(f"Alternative Lösung: {sol.q}")
+    else:
+        print("Keine alternative Lösung gefunden")
+
+
+ur3e.plot(sol.q, backend='pyplot')  # 3D-Plot anzeigen
 input()
 
 

@@ -5,9 +5,10 @@
 #-------------------------------------------------
 # Ergänzt die Camera im Controller in der 
 # emr25_world_3_Tisch_Camera.wbt 
+# mit vorwärts- und inverserer Kinematik
 # -------------------------------------------------
 # 
-# OJU 19.05.2025
+# OJU 17.06.2025
 #----------------------------
 from controller import Supervisor # was Robot
 import socket
@@ -16,6 +17,8 @@ import json
 import time
 import math as m
 import os
+import roboticstoolbox as rtb
+from spatialmath import SE3
 
 
 # RTDE-Schnittstellenparameter
@@ -136,58 +139,25 @@ def inverse_kinematics(cartesian_pose):
         print("Ungültige Pose für IK:", cartesian_pose)
         return None
     x, y, z, rx, ry, rz = cartesian_pose   # roll rx, pitch ry, yaw rz
-
-    # Matrix für die Zielpose (Endeffektor-Pose) definieren
-    # sm = spatialmath Bibliothek   
+    print("Cartesian Pose", cartesian_pose)
+    # Zielpose definieren (Beispiel)
+    T_goal = SE3.Trans(x, y, z) * SE3.Rx(180, 'deg') # Für allgemeine Fälle mit Gelenkbeschränkungen
+    
     # Position (x,y,z) und Orientierung (rx,ry,rz)
-    Tep = sm.SE3(x, y, z) * sm.SE3.RPY(rx, ry, rz, order='xyz')
-    # print(" TCP Ziel: ", TCP_ziel)
-    # Zielpose definieren (Beispiel: 10 cm vorwärts in x-Richtung)
-    #TCP_ziel = sm.SE3.Trans(0.1, 0, 0) * sm.SE3.RPY([0, 0, 0])
-
-    # Greifer zeigt immer nach unten?
-    # TCP_ziel = sm.SE3.Trans(x, y, z) * sm.SE3.OA([0, 1, 0], [0, 0, -1])
-    # Trans() definiert die Position (x,y,z)
-    # OA()  legt die Orientierung über Orientierungs- und Annäherungsvektor fest
-    # Orientierungsvektor (Orientation Vector):
-    # Dieser Vektor beschreibt eine zweite Richtung, meist die y-Achse des Endeffektor-Koordinatensystems. Er legt fest, wie der Endeffektor um den Annäherungsvektor herum gedreht ist.
-    # Annäherungsvektor (Approach Vector)
-    # Dieser Vektor gibt die Richtung an, in die sich der Endeffektor annähert oder „zeigt“. In der Praxis ist das oft die z-Achse des Endeffektor-Koordinatensystems.•	Dieser Vektor gibt die Richtung an, in die sich der Endeffektor annähert oder „zeigt“. In der Praxis ist das oft die z-Achse des Endeffektor-Koordinatensystems.
-     
-  
-    # Die Methode ikine_LM() berechnet die inverse Kinematik (IK) mithilfe des Levenberg-Marquadt-Algorithmus
-    # https://petercorke.github.io/robotics-toolbox-python/IK/stubs/roboticstoolbox.robot.Robot.Robot.ikine_LM.html
-    #   Parameter	Beschreibung
-    #   TCP_ziel	SE3-Objekt mit Zielposition und -orientierung des Endeffektors
-    #   q0	        (Optional) Startschätzung für Gelenkwinkel (Standard: Aktuelle Gelenkwinkel)
-    #   ilimit	    Maximale Iterationen (Standard: 30)
-    #   tol	        Toleranz für Konvergenz (Standard: 1e-6)
-    #   mask	    (Optional) Maskierung bestimmter Freiheitsgrade (z.B. [1,1,1,1] für nur Position)
-
-    end =  ur3_model.ee_links[2] # tool_0
-    print(end)
-    #print(ur3_model)
-    start = ur3_model.links[1] # base_links
-    print(start)
-    #q0 = ur3_model.q  ############## The initial joint coordinate vector is Zero  => ERROR ???
-    q0 = current_joint_angles.copy()
-    print("Aktuelle Gelenkwinkel", q0)
-
-    sol = ur3_model.ikine_LM(
-        Tep,
-        end,
-        start, 
-        q0
-    )  # Make an IK solver
-    
-    
-    # Analytische Lösung => ERROR 'UR3' object has no attribute 'ikine_a'
-    # sol = ur3_model.ikine_a(TCP_ziel, config="lun")  # Make an IK solver
-
-    if not sol.success:
-        print("IK-Konvergenz fehlgeschlagen für Pose:", cartesian_pose)
-        return None
-    return sol.q.tolist()
+    T_goal = SE3(x, y, z) * SE3.RPY(rx, ry, rz, order='xyz') # IK mit Constraints berechnen
+    # Variante 1: allgemeine Fälle mit Gelenkbeschränkungen
+    sol = ur3e.ikine_min(T_goal, qlim=True)
+    if sol.success:
+        print(f"Gelenkwinkel mit IK: {sol.q}")
+    else:
+        print("Keine IK Lösung gefunden")  
+        
+    # Variante 2: Schnelle IK mit Levenberg-Marquad
+    sol = ur3e.ikine_LM(T_goal, ilimit=100, tol=1e-6)
+    if sol.success:
+        print(f"Gelenkwinkel mit IK: {sol.q}")
+    else:
+        print("Keine IK Lösung gefunden")  
 #---------- HIER DIE IK UMSETZEN ----!!!
 
 
@@ -291,15 +261,7 @@ def server_thread():
 # Starte Server-Thread
 threading.Thread(target=server_thread, daemon=True).start()
 
-#GUI_start = True
-tstep = 1
-# Starte GUI als separaten Prozess
-#import subprocess
-#subprocess.Popen(['python', 'c:/mySciebo/_EMR25/emr25/Py_Qt6/Webots_GUI_Joint_Angle_Control.py'])
-
-#from PyQt5.QtCore import QProcess
-#process = QProcess()
-#process.start('python', 'c:/mySciebo/_EMR25/emr25/Py_Qt6/Webots_GUI_Joint_Angle_Control.py')
+tstep = 1 # Counter 
 
 # Hauptsteuerungsschleife
 while robot.step(timestep) != -1:
@@ -329,30 +291,17 @@ while robot.step(timestep) != -1:
         #formatierte Ausgabe
         print(f"aktuelle Gelenkwinkel: {tstep}, {current_joint_angles[0]:+.2f}, {current_joint_angles[1]:+.2f}, {current_joint_angles[2]:+.2f}, {current_joint_angles[3]:+.2f}, {current_joint_angles[4]:+.2f}, {current_joint_angles[5]:+.2f}",     end=" ")
         tstep = tstep +1
-        """ NO WORX  
-        if tool_slot:
-            print("Tool-Slot-Position:", tool_slot.getPosition())
-        else:
-            print("DEF 'TOOL_SLOT' nicht gefunden. Proto-Datei prüfen!")                 
-        """
+       
         #####  TCP ##################           
         # Vorwärtskinematik berechnen
         T = ur3e.fkine(current_joint_angles)  # fkine-Methode ergibt ein SE3-Objekt
         print(f" TCP-Position (x, y, z): {T.t[0]:+.2f}, {T.t[1]:+.2f}, {T.t[2]:+.2f}") # , end=" ")
-        
-        ###### GPS ###########
-        #gps_position = gps.getValues()
-        #print(f"  GPS {gps_position[0]:.2f}, {gps_position[1]:.2f}, {gps_position[2]:.2f}")
-
+        # print(T) => 4x4 Matrix
+       
         # Roboterbewegung steuern
         for name, angle in zip(joint_names, target_joint_angles):
             if name in motors:
                 motors[name].setPosition(angle)
 
-        """ if GUI_start:
-            GUI_start = False
-            # Starte GUI als separaten Prozess
-            import subprocess
-            subprocess.Popen(['python', 'c:/mySciebo/_EMR25/emr25/Py_Qt6/Webots_GUI_Joint_Angle_Control.py'])
-        """
+
        
