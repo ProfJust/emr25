@@ -30,11 +30,12 @@ gripper.set_force(50)
 gripper.set_speed(100)
 
 # Liste von Positionen (Gelenkwinkel)
-# [x, y, z, roll, pitch, yaw] in rad???
+# [x, y, z, roll, pitch, yaw] in deg !!
 waypoints_xyz = [
-    [-0.45690, -0.19425, 0.06655, 0.0, 0.0, 0.0],   
-    [-0.45690, -0.19425, 0.06655, 3.1, 3.1, 3.1],     
+   [-0.45690, -0.19425, 0.06655, 0, 180, 180] 
 ]
+#  [-0.45690, -0.19425, 0.06655, 0, 180, 180],  funkt
+# [0.0071, -0.3682, 1.0, 3.1, 3.1, 3.1],  Pose Solid Box
 # Bewegungen mit MoveJ ausführen
 input("Roboter startet Bewegung (MoveL) nach Eingabe beliebiger Taste")
 for i, ziel_pose in enumerate(waypoints_xyz ):
@@ -47,7 +48,7 @@ for i, ziel_pose in enumerate(waypoints_xyz ):
     actual_q = rtde_r.getActualQ() # in radian
     print("Aktueller Zustand - Gelenkpositionen in Grad ")
     for arg in actual_q:
-        print(arg *180.0/3.1415927)
+        print(arg *180.0/3.1415927, end=" ")
     time.sleep(2)
 
 # Abschluss
