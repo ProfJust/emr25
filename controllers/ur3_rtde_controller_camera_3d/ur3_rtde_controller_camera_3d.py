@@ -203,7 +203,7 @@ def handle_client(conn, addr):
                     if len(pose) == 6:
                         print(" Target Pose IK ", pose)
                         q = inverse_kinematics(pose)  # ==>>> IK 
-                        """====>>>if q:
+                        """====>>>  ERRROR HIER   if q:
                             target_joint_angles[:] = q
                             for name in joint_names:
                                 motors[name].setVelocity(speed)
